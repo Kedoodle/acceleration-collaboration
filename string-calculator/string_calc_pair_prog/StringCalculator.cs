@@ -8,16 +8,46 @@ namespace string_calc_test
         public static int Add(string stringToCalc)
         {
             var delimiters = new[] {',', '\n'};
-            if (stringToCalc.StartsWith("//"))
+            if (HasCustomDelimiter(stringToCalc))
             {
-                var delimiterDeclarationEndIndex = stringToCalc.IndexOf('\n');
-                stringToCalc = stringToCalc.Substring(delimiterDeclarationEndIndex + 1);
-                delimiters = new[] {stringToCalc[2]};
+                delimiters = GetCustomDelimiter(stringToCalc);
+                stringToCalc = stringToCalc.Substring(4);
             }
-            if (stringToCalc.Count(c => c == ',') == 0) return stringToCalc == "" ? 0 : int.Parse(stringToCalc);
-            
-            var stringOperands = stringToCalc.Split(delimiters);
+
+            if (IsEmptyString(stringToCalc))
+            {
+                return 0;
+            }
+
+            var stringOperands = GetStringOperands(stringToCalc, delimiters);
             return stringOperands.Sum(int.Parse);
+        }
+
+        private static char[] GetCustomDelimiter(string stringToCalc)
+        {
+            var delimiters = new[] {stringToCalc[2]};
+            return delimiters;
+        }
+
+        private static bool HasCustomDelimiter(string stringToCalc)
+        {
+            return stringToCalc.StartsWith("//");
+        }
+        
+
+        private static bool IsEmptyString(string stringToCalc)
+        {
+            return stringToCalc == "";
+            
+        }
+
+        private static string[] GetStringOperands(string stringToCalc, char[] delimiters)
+        {
+            return stringToCalc.Split(delimiters);
         }
     }
 }
+
+//get delimiters
+// get operands
+// .replace("\n """)
