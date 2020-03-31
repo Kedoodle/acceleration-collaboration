@@ -61,15 +61,15 @@ namespace string_calc_test
 			
 		}
 		
-		[Fact]
-		public void NegativeNumbersThrowsException()
+		[Theory]
+		[InlineData("Negatives not allowed: -1, -3", "-1,2,-3")]
+		[InlineData("Negatives not allowed: -20, -100", "-20,22,-100,-0")]
+		public void NegativeNumbersThrowsException(string expectedExceptionMessage, string stringToCalc)
 		{
-			const string expectedExceptionMessage = "Negatives not allowed: -1, -3";
-			
-			const string stringToCalc = "-1,2,-3";
-			
 			var exception = Assert.Throws<ArgumentException>(() => StringCalculator.Add(stringToCalc));
 			Assert.Equal(expectedExceptionMessage, exception.Message);
 		}
+		
+		
 		}
 }
