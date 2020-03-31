@@ -23,7 +23,13 @@ namespace string_calc_test
             var stringOperands = GetStringOperands(stringToCalc, delimiters);
             var intOperands = GetOperands(stringOperands);
             ThrowExceptionIfNegativeOperands(intOperands);
-            return stringOperands.Sum(int.Parse);
+            intOperands = RemoveOperandsGreaterThanOrEqualTo1000(intOperands);
+            return intOperands.Sum();
+        }
+
+        private static IEnumerable<int> RemoveOperandsGreaterThanOrEqualTo1000(IEnumerable<int> intOperands)
+        {
+            return intOperands.Where(operand => operand < 1000);
         }
 
         private static void ThrowExceptionIfNegativeOperands(IEnumerable<int> intOperands)

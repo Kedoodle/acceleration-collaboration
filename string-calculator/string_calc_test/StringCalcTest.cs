@@ -71,5 +71,15 @@ namespace string_calc_test
 		}
 		
 		
+		[Theory]
+		[InlineData(2, "1000,1001,2")]
+		[InlineData(999, "999,5000,0")]
+		[InlineData(0, "1000")]
+		public void NumbersGreaterThanOrEqualTo1000Ignored(int expected, string stringToCalc)
+		{
+			var actual = StringCalculator.Add(stringToCalc);
+			Assert.Equal(expected, actual);
+			
+		}
 		}
 }
