@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace string_calc_test
@@ -20,7 +21,22 @@ namespace string_calc_test
             }
 
             var stringOperands = GetStringOperands(stringToCalc, delimiters);
+            var intOperands = GetOperands(stringOperands);
+            ThrowExceptionIfNegativeOperands(intOperands);
             return stringOperands.Sum(int.Parse);
+        }
+
+        private static void ThrowExceptionIfNegativeOperands(IEnumerable<int> intOperands)
+        {
+            if (!intOperands.Any(operand => operand < 0)) return;
+            
+            var negativeOperands = intOperands.Where(operand => operand < 0);
+            throw new ArgumentException($"Negatives not allowed: {string.Join(", ", negativeOperands)}");
+        }
+
+        private static IEnumerable<int> GetOperands(IEnumerable<string> stringOperands)
+        {
+            return stringOperands.Select(int.Parse).ToList();
         }
 
         private static char[] GetCustomDelimiter(string stringToCalc)

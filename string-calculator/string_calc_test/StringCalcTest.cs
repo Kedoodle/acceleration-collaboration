@@ -10,7 +10,7 @@ namespace string_calc_test
 		public void EmptyStringReturns0()
 		{
 			const int expected = 0;
-			int actual = StringCalculator.Add("");
+			var actual = StringCalculator.Add("");
 			Assert.Equal(expected, actual);
 		}
 		
@@ -64,14 +64,12 @@ namespace string_calc_test
 		[Fact]
 		public void NegativeNumbersThrowsException()
 		{
+			const string expectedExceptionMessage = "Negatives not allowed: -1, -3";
 			
 			const string stringToCalc = "-1,2,-3";
-			var actual = StringCalculator.Add(stringToCalc);
-			Assert.Equal(expected, actual);
 			
-			
+			var exception = Assert.Throws<ArgumentException>(() => StringCalculator.Add(stringToCalc));
+			Assert.Equal(expectedExceptionMessage, exception.Message);
 		}
-		
-		
-	}
+		}
 }
