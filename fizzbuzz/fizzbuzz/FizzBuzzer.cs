@@ -6,22 +6,10 @@ namespace fizzbuzz
     {
         public static string Generate(int number)
         {
-            if (IsMultipleOf3(number) && IsMultipleOf5(number))
-            {
-                return "FizzBuzz";
-            }
-            else if (number % 3 == 0)
-            {
-                return "Fizz";
-            }
-            else if (number % 5 == 0)
-            {
-                return "Buzz";
-            }
-            else
-            {
-                return number.ToString();
-            }
+            if (IsMultipleOf3(number) && IsMultipleOf5(number)) return "FizzBuzz";
+            if (IsMultipleOf3(number)) return "Fizz";
+            if (IsMultipleOf5(number)) return "Buzz";
+            return number.ToString();
         }
         
         private static bool IsMultipleOf3(int number)

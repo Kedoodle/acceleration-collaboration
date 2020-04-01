@@ -31,6 +31,7 @@ namespace fizzbuzz_tests
         [Theory]
         [InlineData("Buzz", 5)]
         [InlineData("Buzz", 10)]
+        [InlineData("Buzz", 20)]
         public void Generate_GivenMultipleOf5Not3_ReturnBuzz(string expected, int number)
         {
             var actual = FizzBuzzer.Generate(number);
@@ -39,6 +40,8 @@ namespace fizzbuzz_tests
         
         [Theory]
         [InlineData("FizzBuzz", 15)]
+        [InlineData("FizzBuzz", 30)]
+        [InlineData("FizzBuzz", 45)]
         public void Generate_GivenMultipleOf15_ReturnFizzBuzz(string expected, int number)
         {
             var actual = FizzBuzzer.Generate(number);
