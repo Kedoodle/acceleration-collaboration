@@ -6,13 +6,19 @@ namespace string_calc_test
 {
     public static class StringCalculator
     {
+        private static readonly string[] DefaultDelimiters = {",", "\n"};
+
         public static int Add(string stringToCalc)
         {
-            var delimiters = new[] {",", "\n"};
+            string[] delimiters;
             if (HasCustomDelimiter(stringToCalc))
             {
                 delimiters = GetCustomDelimiter(stringToCalc);
                 stringToCalc = RemoveCustomDelimiterDeclaration(stringToCalc);
+            }
+            else
+            {
+                delimiters = DefaultDelimiters;
             }
 
             if (IsEmptyString(stringToCalc))
@@ -59,7 +65,7 @@ namespace string_calc_test
             
         }
         
-        private static string[] GetStringOperands(string stringToCalc, string[] delimiters)
+        private static IEnumerable<string> GetStringOperands(string stringToCalc, string[] delimiters)
         {
             return stringToCalc.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
         }
@@ -84,7 +90,3 @@ namespace string_calc_test
 
     }
 }
-
-//get delimiters
-// get operands
-// .replace("\n """)

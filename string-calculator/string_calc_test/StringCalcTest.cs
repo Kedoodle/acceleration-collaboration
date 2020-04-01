@@ -90,5 +90,29 @@ namespace string_calc_test
 			Assert.Equal(expected, actual);
 		}
 		
+		[Theory]
+		[InlineData(6, "//[*][%]\n1*2%3")]
+		public void AllowMultipleDelimitersOfOneChar(int expected, string stringToCalc)
+		{
+			var actual = StringCalculator.Add(stringToCalc);
+			Assert.Equal(expected, actual);
+		}
+		
+		[Theory]
+		[InlineData(10, "//[***][#][%]\n1***2#3%4")]
+		public void AllowMultipleDelimitersOfMultipleChar(int expected, string stringToCalc)
+		{
+			var actual = StringCalculator.Add(stringToCalc);
+			Assert.Equal(expected, actual);
+		}
+		
+		[Theory]
+		[InlineData(6, "//[*1*][%]\n1*1*2%3")]
+		public void AllowMultipleDelimitersWithNumbers(int expected, string stringToCalc)
+		{
+			var actual = StringCalculator.Add(stringToCalc);
+			Assert.Equal(expected, actual);
+		}
+		
 	}
 }
