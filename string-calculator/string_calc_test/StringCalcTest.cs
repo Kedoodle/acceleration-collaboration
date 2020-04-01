@@ -10,7 +10,7 @@ namespace string_calc_test
 		public void EmptyStringReturns0()
 		{
 			const int expected = 0;
-			int actual = StringCalculator.Add("");
+			var actual = StringCalculator.Add("");
 			Assert.Equal(expected, actual);
 		}
 		
@@ -52,8 +52,8 @@ namespace string_calc_test
 		}
 
 		[Theory]
-		[InlineData(3, "//;\n1;2")]
-		[InlineData(5, "//,\n3,2")]
+		[InlineData(3, "//[;]\n1;2")]
+		[InlineData(5, "//[,]\n3,2")]
 		public void DifferentDelimitersAreSupported(int expected, string stringToCalc)
 		{
 			var actual = StringCalculator.Add(stringToCalc);
@@ -61,17 +61,34 @@ namespace string_calc_test
 			
 		}
 		
-		[Fact]
-		public void NegativeNumbersThrowsException()
+		[Theory]
+		[InlineData("Negatives not allowed: -1, -3", "-1,2,-3")]
+		[InlineData("Negatives not allowed: -20, -100", "-20,22,-100,-0")]
+		public void NegativeNumbersThrowsException(string expectedExceptionMessage, string stringToCalc)
 		{
-			
-			const string stringToCalc = "-1,2,-3";
+			var exception = Assert.Throws<ArgumentException>(() => StringCalculator.Add(stringToCalc));
+			Assert.Equal(expectedExceptionMessage, exception.Message);
+		}
+		
+		
+		[Theory]
+		[InlineData(2, "1000,1001,2")]
+		[InlineData(999, "999,5000,0")]
+		[InlineData(0, "1000")]
+		public void NumbersGreaterThanOrEqualTo1000Ignored(int expected, string stringToCalc)
+		{
 			var actual = StringCalculator.Add(stringToCalc);
 			Assert.Equal(expected, actual);
 			
-			
 		}
-		
+
+		[Theory]
+		[InlineData(6, "//[***]\n1***2***3")]
+		public void DelimitersCanBeAnyLength(int expected, string stringToCalc)
+		{
+			var actual = StringCalculator.Add(stringToCalc);
+			Assert.Equal(expected, actual);
+		}
 		
 	}
 }
