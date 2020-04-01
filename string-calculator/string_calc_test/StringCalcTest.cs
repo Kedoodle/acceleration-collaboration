@@ -52,8 +52,8 @@ namespace string_calc_test
 		}
 
 		[Theory]
-		[InlineData(3, "//;\n1;2")]
-		[InlineData(5, "//,\n3,2")]
+		[InlineData(3, "//[;]\n1;2")]
+		[InlineData(5, "//[,]\n3,2")]
 		public void DifferentDelimitersAreSupported(int expected, string stringToCalc)
 		{
 			var actual = StringCalculator.Add(stringToCalc);
@@ -81,5 +81,14 @@ namespace string_calc_test
 			Assert.Equal(expected, actual);
 			
 		}
+
+		[Theory]
+		[InlineData(6, "//[***]\n1***2***3")]
+		public void DelimitersCanBeAnyLength(int expected, string stringToCalc)
+		{
+			var actual = StringCalculator.Add(stringToCalc);
+			Assert.Equal(expected, actual);
 		}
+		
+	}
 }
