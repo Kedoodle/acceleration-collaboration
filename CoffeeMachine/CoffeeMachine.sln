@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeMachine", "CoffeeMachine\CoffeeMachine.csproj", "{D579E06A-6F11-4BBC-8DA9-281E0B9EA3D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeMachine.Test", "CoffeeMachine.Test\CoffeeMachine.Test.csproj", "{DDD666D1-2588-417D-8A72-3B8579AD0192}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeMachine.Tests", "CoffeeMachine.Tests\CoffeeMachine.Tests.csproj", "{DDD666D1-2588-417D-8A72-3B8579AD0192}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
