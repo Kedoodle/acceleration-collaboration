@@ -3,6 +3,7 @@ namespace CoffeeMachine
     public enum DrinkType
     {
         Tea,
-        Coffee
+        Coffee,
+        HotChocolate
     }
 }

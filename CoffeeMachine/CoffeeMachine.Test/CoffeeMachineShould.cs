@@ -5,11 +5,17 @@ namespace CoffeeMachine.Test
 {
     public class CoffeeMachineShould
     {
+        private readonly DrinkMaker _drinkMaker;
+
+        public CoffeeMachineShould()
+        {
+            _drinkMaker = new DrinkMaker();
+        }
+        
         [Fact]
         public void GetNewTeaObjectGivenDrinkType()
         {
-            var drinkMaker = new DrinkMaker();
-            var drink = drinkMaker.GetDrink(DrinkType.Tea);
+            var drink = _drinkMaker.GetDrink(DrinkType.Tea);
             
             Assert.IsType<Tea>(drink);
         }
@@ -17,10 +23,26 @@ namespace CoffeeMachine.Test
         [Fact]
         public void GetNewCoffeeObjectGivenDrinkType()
         {
-            var drinkMaker = new DrinkMaker();
-            var drink = drinkMaker.GetDrink(DrinkType.Coffee);
+            var drink = _drinkMaker.GetDrink(DrinkType.Coffee);
             
             Assert.IsType<Coffee>(drink);
+        }
+        
+        [Fact]
+        public void GetNewHotChocolateObjectGivenDrinkType()
+        {
+            var drink = _drinkMaker.GetDrink(DrinkType.HotChocolate);
+            
+            Assert.IsType<HotChocolate>(drink);
+        }
+
+        [Fact]
+        public void AddSugarToNewDrinks()
+        {
+            const int sugars = 1;
+            var drink = _drinkMaker.GetDrink(DrinkType.Tea, sugars);
+            
+            Assert.Equal(sugars, drink.Sugars);
         }
     }
 }
