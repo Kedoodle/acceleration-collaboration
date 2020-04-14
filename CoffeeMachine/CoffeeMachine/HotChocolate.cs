@@ -1,7 +1,6 @@
 namespace CoffeeMachine
 {
-    public class HotChocolate : IDrink
+    public class HotChocolate : Drink
     {
-        public int Sugars { get; set; }
     }
 }
