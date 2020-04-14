@@ -9,10 +9,18 @@ namespace CoffeeMachine.Test
         public void GetNewTeaObjectGivenDrinkType()
         {
             var drinkMaker = new DrinkMaker();
-            var tea = drinkMaker.GetDrink(DrinkType.Tea);
+            var drink = drinkMaker.GetDrink(DrinkType.Tea);
             
-            Assert.IsType<Tea>(tea);
+            Assert.IsType<Tea>(drink);
+        }
+        
+        [Fact]
+        public void GetNewCoffeeObjectGivenDrinkType()
+        {
+            var drinkMaker = new DrinkMaker();
+            var drink = drinkMaker.GetDrink(DrinkType.Coffee);
+            
+            Assert.IsType<Coffee>(drink);
         }
     }
-
 }
