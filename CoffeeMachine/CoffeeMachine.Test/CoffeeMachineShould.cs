@@ -53,5 +53,14 @@ namespace CoffeeMachine.Test
             
             Assert.True(drink.HasStick());
         }
+        
+        [Fact]
+        public void NotAddStickIfDrinkHasSugar()
+        {
+            const int sugars = 0;
+            var drink = _drinkMaker.GetDrink(DrinkType.Tea, sugars);
+            
+            Assert.False(drink.HasStick());
+        }
     }
 }
