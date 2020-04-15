@@ -13,56 +13,28 @@ namespace CoffeeMachine.Test
         }
         
         [Fact]
-        public void GetNewTeaObjectGivenDrinkType()
+        public void GetNewTeaObjectGivenDrinkCommand()
         {
-            var drink = _drinkMaker.GetDrink(DrinkType.Tea);
-            
-            Assert.IsType<Tea>(drink);
-            Assert.True(drink.DrinkType == DrinkType.Tea);
-        }
-        
-        [Fact]
-        public void GetNewCoffeeObjectGivenDrinkType()
-        {
-            var drink = _drinkMaker.GetDrink(DrinkType.Coffee);
-            
-            Assert.IsType<Coffee>(drink);
-            Assert.True(drink.DrinkType == DrinkType.Coffee);
-        }
-        
-        [Fact]
-        public void GetNewHotChocolateObjectGivenDrinkType()
-        {
-            var drink = _drinkMaker.GetDrink(DrinkType.HotChocolate);
-            
-            Assert.IsType<HotChocolate>(drink);
-            Assert.True(drink.DrinkType == DrinkType.HotChocolate);
-        }
+            const string drinkCommand = "T:1:0";
 
-        [Fact]
-        public void AddSugarToNewDrinks()
-        {
-            const int sugars = 1;
-            var drink = _drinkMaker.GetDrink(DrinkType.Tea, sugars);
+            var wasDrinkMade = _drinkMaker.TryMakeDrink(drinkCommand, out var drink);
             
-            Assert.Equal(sugars, drink.Sugars);
-        }
-
-        [Fact]
-        public void AddStickIfDrinkHasSugar()
-        {
-            const int sugars = 1;
-            var drink = _drinkMaker.GetDrink(DrinkType.Tea, sugars);
-            
+            Assert.True(wasDrinkMade);
+            Assert.Equal(DrinkType.Tea, drink.DrinkType);
+            Assert.Equal(1, drink.Sugars);
             Assert.True(drink.HasStick());
         }
-        
+
         [Fact]
-        public void NotAddStickIfDrinkHasSugar()
+        public void GetNewHotChocolateObjectGivenDrinkCommand()
         {
-            const int sugars = 0;
-            var drink = _drinkMaker.GetDrink(DrinkType.Tea, sugars);
+            const string drinkCommand = "H::";
             
+            var wasDrinkMade = _drinkMaker.TryMakeDrink(drinkCommand, out var drink);
+            
+            Assert.True(wasDrinkMade);
+            Assert.Equal(DrinkType.HotChocolate, drink.DrinkType);
+            Assert.Equal(0, drink.Sugars);
             Assert.False(drink.HasStick());
         }
     }
