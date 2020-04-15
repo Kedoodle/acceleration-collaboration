@@ -3,11 +3,11 @@ using Xunit;
 
 namespace CoffeeMachine.Test
 {
-    public class CoffeeMachineShould
+    public class DrinkMakerShould
     {
         private readonly DrinkMaker _drinkMaker;
 
-        public CoffeeMachineShould()
+        public DrinkMakerShould()
         {
             _drinkMaker = new DrinkMaker();
         }
@@ -18,6 +18,7 @@ namespace CoffeeMachine.Test
             var drink = _drinkMaker.GetDrink(DrinkType.Tea);
             
             Assert.IsType<Tea>(drink);
+            Assert.True(drink.DrinkType == DrinkType.Tea);
         }
         
         [Fact]
@@ -26,6 +27,7 @@ namespace CoffeeMachine.Test
             var drink = _drinkMaker.GetDrink(DrinkType.Coffee);
             
             Assert.IsType<Coffee>(drink);
+            Assert.True(drink.DrinkType == DrinkType.Coffee);
         }
         
         [Fact]
@@ -34,6 +36,7 @@ namespace CoffeeMachine.Test
             var drink = _drinkMaker.GetDrink(DrinkType.HotChocolate);
             
             Assert.IsType<HotChocolate>(drink);
+            Assert.True(drink.DrinkType == DrinkType.HotChocolate);
         }
 
         [Fact]
