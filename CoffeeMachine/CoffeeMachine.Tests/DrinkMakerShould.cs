@@ -37,5 +37,18 @@ namespace CoffeeMachine.Test
             Assert.Equal(0, drink.Sugars);
             Assert.False(drink.HasStick());
         }
+        
+        [Fact]
+        public void GetNewCoffeeObjectGivenDrinkCommand()
+        {
+            const string drinkCommand = "C:2:0";
+            
+            var wasDrinkMade = _drinkMaker.TryMakeDrink(drinkCommand, out var drink);
+            
+            Assert.True(wasDrinkMade);
+            Assert.Equal(DrinkType.Coffee, drink.DrinkType);
+            Assert.Equal(2, drink.Sugars);
+            Assert.True(drink.HasStick());
+        }
     }
 }
