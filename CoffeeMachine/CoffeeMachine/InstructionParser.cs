@@ -11,15 +11,27 @@ namespace CoffeeMachine
             {"C", DrinkType.Coffee}
         };
         
-        public static bool TryParse(string drinkCommand, out DrinkInstruction drinkInstruction)
+        public static bool TryParse(string command, out IInstruction instruction)
         {
-            var stringDrinkComponents = drinkCommand.Split(':');
+            var instructionComponents = command.Split(':');
 
-            var drinkType = _drinkCodes[stringDrinkComponents[0]];
-            int.TryParse(stringDrinkComponents[1], out var sugars);
+            if (instructionComponents[0] == "M")
+            {
+                instruction = new MessageInstruction(instructionComponents[1]);
+                return true;
+            }
 
-            drinkInstruction = new DrinkInstruction(drinkType, sugars);
-            return true;
+            if (_drinkCodes.ContainsKey(instructionComponents[0]))
+            {
+                var drinkType = _drinkCodes[instructionComponents[0]];
+                int.TryParse(instructionComponents[1], out var sugars);
+                
+                instruction = new DrinkInstruction(drinkType, sugars);
+                return true;
+            }
+
+            instruction = new ErrorMessageInstruction("Invalid command code!");
+            return false;
         }
     }
 }

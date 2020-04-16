@@ -1,6 +1,6 @@
 namespace CoffeeMachine
 {
-    public struct DrinkInstruction
+    public struct DrinkInstruction : IInstruction
     {
         public DrinkInstruction(DrinkType drinkType, int sugars)
         {
