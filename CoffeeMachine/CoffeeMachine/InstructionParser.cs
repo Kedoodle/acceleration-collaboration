@@ -14,24 +14,59 @@ namespace CoffeeMachine
         public static bool TryParse(string command, out IInstruction instruction)
         {
             var instructionComponents = command.Split(':');
-
-            if (instructionComponents[0] == "M")
+            
+            if (IsMessage(instructionComponents))
             {
-                instruction = new MessageInstruction(instructionComponents[1]);
+                instruction = GetMessageInstruction(instructionComponents);
                 return true;
             }
 
-            if (_drinkCodes.ContainsKey(instructionComponents[0]))
+            if (IsDrink(instructionComponents))
             {
-                var drinkType = _drinkCodes[instructionComponents[0]];
-                int.TryParse(instructionComponents[1], out var sugars);
-                
-                instruction = new DrinkInstruction(drinkType, sugars);
+                instruction = GetDrinkInstruction(instructionComponents);
                 return true;
             }
 
             instruction = new ErrorMessageInstruction("Invalid command code!");
             return false;
         }
+        
+        private static bool IsMessage(string[] instructionComponents)
+        {
+            var instructionType = GetInstructionType(instructionComponents);
+            return instructionType == "M";
+        }
+        
+        private static string GetInstructionType(string[] instructionComponents)
+        {
+            return instructionComponents[0];
+        }
+
+        private static IInstruction GetMessageInstruction(string[] instructionComponents)
+        {
+            var message = instructionComponents[1];
+            return new MessageInstruction(message);
+        }
+
+        private static bool IsDrink(string[] instructionComponents)
+        {
+            var instructionType = GetInstructionType(instructionComponents);
+            return _drinkCodes.ContainsKey(instructionType);
+        }
+
+        private static IInstruction GetDrinkInstruction(string[] instructionComponents)
+        {
+            var drinkType = GetDrinkType(instructionComponents[0]);
+            var sugarInstruction = instructionComponents[1];
+            int.TryParse(sugarInstruction, out var sugars);
+            return new DrinkInstruction(drinkType, sugars);
+        }
+
+
+        private static DrinkType GetDrinkType(string drinkCode)
+        {
+            return _drinkCodes[drinkCode];
+        }
+
     }
 }
