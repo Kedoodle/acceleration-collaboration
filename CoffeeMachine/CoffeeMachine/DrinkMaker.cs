@@ -4,6 +4,10 @@ namespace CoffeeMachine
 {
     public class DrinkMaker
     {
+        // public DrinkMaker(MoneyModule)
+        // {
+        //     
+        // }
         // public bool TryMakeDrink(string drinkCommand, out IDrink drink)
         // {
         //     InstructionParser.TryParse(drinkCommand, out var drinkInstruction);
