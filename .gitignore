@@ -1,6 +1,8 @@
 # Rider
 **/.idea/
+**/*.sln.DotSettings.user
 
 # Build
 **/bin/
 **/obj/
+
