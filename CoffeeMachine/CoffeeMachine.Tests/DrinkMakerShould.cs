@@ -1,4 +1,5 @@
 using System;
+using Moq;
 using Xunit;
 
 namespace CoffeeMachine.Test
@@ -80,5 +81,34 @@ namespace CoffeeMachine.Test
             Assert.Null(drink);
             Assert.Equal(expectedMessage, message);
         }
+
+        [Fact]
+        public void RequestPaymentIfMoneyModuleUsed()
+        {
+            var mockMoneyModule = new Mock<IMoneyModule>();
+            _drinkMaker.MoneyModule = mockMoneyModule.Object;
+            
+            const string drinkCommand = "C:2:0";
+            _drinkMaker.TryExecuteCommand(drinkCommand);
+            
+            mockMoneyModule.Verify(m => m.RequestMoney(It.IsAny<DrinkInstruction>()), Times.Once);
+        }
+
+        [Theory]
+        [InlineData("C:2:0", "Order Total: $0.60")]
+        [InlineData("T:1:0", "Order Total: $0.40")]
+        [InlineData("H::", "Order Total: $0.50")]
+        public void DisplaysPaymentRequest(string drinkCommand, string expectedMessage)
+        {
+            var moneyModule = new MoneyModule();
+            _drinkMaker.MoneyModule = moneyModule;
+            
+            _drinkMaker.TryExecuteCommand(drinkCommand);
+            
+            Assert.Equal(expectedMessage, _drinkMaker.Message);
+        }
+
+        
+        
     }
 }

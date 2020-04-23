@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 
 namespace CoffeeMachine
 {
@@ -13,49 +14,39 @@ namespace CoffeeMachine
         
         public static bool TryParse(string command, out IInstruction instruction)
         {
-            var instructionComponents = command.Split(':');
-            
-            if (IsMessage(instructionComponents))
+            //TODO: refactor this function to a validator function
+            if (command.Length < 2)
             {
-                instruction = GetMessageInstruction(instructionComponents);
-                return true;
+                instruction = new ErrorMessageInstruction("Invalid command code!");
+                return false;
+                
             }
-
-            if (IsDrink(instructionComponents))
+            switch (command.Substring(0, 2))
             {
-                instruction = GetDrinkInstruction(instructionComponents);
-                return true;
+                case "M:":
+                    instruction = GetMessageInstruction(command);
+                    return true;
+                case "C:":
+                case "T:":
+                case "H:":
+                    instruction = GetDrinkInstruction(command);
+                    return true;
+                default:
+                    instruction = new ErrorMessageInstruction("Invalid command code!");
+                    return false;
             }
-
-            instruction = new ErrorMessageInstruction("Invalid command code!");
-            return false;
         }
         
-        private static bool IsMessage(string[] instructionComponents)
+        private static IInstruction GetMessageInstruction(string command)
         {
-            var instructionType = GetInstructionType(instructionComponents);
-            return instructionType == "M";
-        }
-        
-        private static string GetInstructionType(string[] instructionComponents)
-        {
-            return instructionComponents[0];
-        }
-
-        private static IInstruction GetMessageInstruction(string[] instructionComponents)
-        {
-            var message = instructionComponents[1];
+            var message = command.Length == 2 ? "" : command.Substring(2);
             return new MessageInstruction(message);
         }
 
-        private static bool IsDrink(string[] instructionComponents)
-        {
-            var instructionType = GetInstructionType(instructionComponents);
-            return _drinkCodes.ContainsKey(instructionType);
-        }
 
-        private static IInstruction GetDrinkInstruction(string[] instructionComponents)
+        private static IInstruction GetDrinkInstruction(string command)
         {
+            var instructionComponents = command.Split(":");
             var drinkType = GetDrinkType(instructionComponents[0]);
             var sugarInstruction = instructionComponents[1];
             int.TryParse(sugarInstruction, out var sugars);

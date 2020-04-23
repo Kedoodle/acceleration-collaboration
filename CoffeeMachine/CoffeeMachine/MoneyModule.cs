@@ -2,7 +2,8 @@ using System.Collections.Generic;
 
 namespace CoffeeMachine
 {
-    public class MoneyModule
+    //TODO: Link money module to drink maker
+    public class MoneyModule : IMoneyModule
     {
         private readonly Dictionary<DrinkType, decimal> _drinkPrices = new Dictionary<DrinkType, decimal>()
         {
@@ -19,11 +20,16 @@ namespace CoffeeMachine
         {
             return _drinkPrices[DrinkOrder];
         }
-
-
+        
+        //TODO: refactor this to have an out message instruction if order is paid 
         public bool IsOrderPaid()
         {
             return AmountPaid >= GetPrice();
+        }
+
+        public string RequestMoney(DrinkInstruction drinkInstruction)
+        {
+            return "M:Order Total: $0.60";
         }
     }
 }

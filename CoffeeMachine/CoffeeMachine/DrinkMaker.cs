@@ -16,7 +16,9 @@ namespace CoffeeMachine
         // }
 
         public IDrink Drink { get; private set; }
-        public string Message { get; private set; }
+        public string Message { get; set; }
+
+        public IMoneyModule MoneyModule;
         
         public bool TryExecuteCommand(string command)
         {
@@ -24,6 +26,16 @@ namespace CoffeeMachine
             switch (instruction)
             {
                 case DrinkInstruction drinkInstruction:
+                    if (!(MoneyModule is null))
+                    {
+                        var messageCommand = MoneyModule.RequestMoney(drinkInstruction);
+                        TryExecuteCommand(messageCommand);
+                    }
+                    
+                    //ask for user input
+                    //user inputs amount paid
+                    //check if enough money
+                    //if amount is not enough, return false
                     Drink = GetDrink(drinkInstruction);
                     return true;
                 case MessageInstruction messageInstruction:
@@ -36,6 +48,8 @@ namespace CoffeeMachine
                     return false;
             }
         }
+        
+        //function check if moneymodule is used
 
         private static string ErrorMessage(ErrorMessageInstruction errorMessageInstruction)
         {
