@@ -4,7 +4,7 @@ namespace CoffeeMachine.Test
 {
     public class MoneyModuleShould
     {
-
+       
         [Theory]
         [InlineData(DrinkType.Coffee, 0.6)]
         [InlineData(DrinkType.Tea, 0.4)]
@@ -24,6 +24,6 @@ namespace CoffeeMachine.Test
             var moneyModule = new MoneyModule {DrinkOrder = drinkOrder, AmountPaid = amountPaid};
             Assert.False(moneyModule.IsOrderPaid());
         }
-        
+
     }
 }

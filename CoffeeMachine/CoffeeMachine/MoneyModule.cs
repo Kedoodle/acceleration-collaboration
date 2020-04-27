@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CoffeeMachine
@@ -26,10 +27,15 @@ namespace CoffeeMachine
             return AmountPaid >= GetPrice();
         }
 
-        public string RequestMoney(DrinkInstruction drinkInstruction)
+        public string GetOrderTotalMessageCommand(DrinkInstruction drinkInstruction)
         {
             var drinkPrice = _drinkPrices[drinkInstruction.DrinkType];
             return $"M:Order Total: ${drinkPrice:F}";
+        }
+
+        public void RequestMoney(DrinkType coffee)
+        {
+            AmountPaid = decimal.Parse(Console.ReadLine() ?? throw new ArgumentNullException());
         }
     }
 }

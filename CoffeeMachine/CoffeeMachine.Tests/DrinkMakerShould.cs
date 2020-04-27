@@ -86,14 +86,14 @@ namespace CoffeeMachine.Test
         public void RequestPaymentIfMoneyModuleUsed()
         {
             var mockMoneyModule = Mock.Of<IMoneyModule>(m => 
-                m.RequestMoney(It.IsAny<DrinkInstruction>()) == "M:Order Total: $0.60");
+                m.GetOrderTotalMessageCommand(It.IsAny<DrinkInstruction>()) == "M:Order Total: $0.60");
             _drinkMaker.MoneyModule = mockMoneyModule;
             
             const string drinkCommand = "C:2:0";
             _drinkMaker.TryExecuteCommand(drinkCommand);
             
             Mock.Get(mockMoneyModule).Verify(m => 
-                m.RequestMoney(It.IsAny<DrinkInstruction>()), Times.Once);
+                m.GetOrderTotalMessageCommand(It.IsAny<DrinkInstruction>()), Times.Once);
         }
 
         [Theory]
@@ -109,6 +109,8 @@ namespace CoffeeMachine.Test
             
             Assert.Equal(expectedMessage, _drinkMaker.Message);
         }
+        
+        
 
         
         
