@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace CoffeeMachine
 {
-    //TODO: Link money module to drink maker
     public class MoneyModule : IMoneyModule
     {
         private readonly Dictionary<DrinkType, decimal> _drinkPrices = new Dictionary<DrinkType, decimal>()
@@ -29,7 +28,8 @@ namespace CoffeeMachine
 
         public string RequestMoney(DrinkInstruction drinkInstruction)
         {
-            return "M:Order Total: $0.60";
+            var drinkPrice = _drinkPrices[drinkInstruction.DrinkType];
+            return $"M:Order Total: ${drinkPrice:F}";
         }
     }
 }

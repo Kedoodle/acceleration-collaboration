@@ -18,7 +18,7 @@ namespace CoffeeMachine
         public IDrink Drink { get; private set; }
         public string Message { get; set; }
 
-        public IMoneyModule MoneyModule;
+        public IMoneyModule MoneyModule { get; set; }
         
         public bool TryExecuteCommand(string command)
         {

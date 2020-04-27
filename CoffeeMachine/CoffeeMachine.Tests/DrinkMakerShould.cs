@@ -85,13 +85,15 @@ namespace CoffeeMachine.Test
         [Fact]
         public void RequestPaymentIfMoneyModuleUsed()
         {
-            var mockMoneyModule = new Mock<IMoneyModule>();
-            _drinkMaker.MoneyModule = mockMoneyModule.Object;
+            var mockMoneyModule = Mock.Of<IMoneyModule>(m => 
+                m.RequestMoney(It.IsAny<DrinkInstruction>()) == "M:Order Total: $0.60");
+            _drinkMaker.MoneyModule = mockMoneyModule;
             
             const string drinkCommand = "C:2:0";
             _drinkMaker.TryExecuteCommand(drinkCommand);
             
-            mockMoneyModule.Verify(m => m.RequestMoney(It.IsAny<DrinkInstruction>()), Times.Once);
+            Mock.Get(mockMoneyModule).Verify(m => 
+                m.RequestMoney(It.IsAny<DrinkInstruction>()), Times.Once);
         }
 
         [Theory]
