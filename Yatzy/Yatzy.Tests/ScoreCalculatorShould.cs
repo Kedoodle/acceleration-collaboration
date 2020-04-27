@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Xunit;
 
 namespace Yatzy
@@ -14,19 +13,18 @@ namespace Yatzy
             var actualScore = ScoreCalculator.GetScore(dice, Category.Chance);
             
             Assert.Equal(expectedScore, actualScore);
-        }
-    }
-
-    public static class ScoreCalculator
-    {
-        public static int GetScore(int[] dice, Category chance)
+        }        
+        
+        [Theory]
+        [InlineData(new[]{1, 1, 3, 3, 6}, 14)]
+        [InlineData(new[]{4, 5, 5, 6, 1}, 21)]
+        public void ReturnsFiftyForYatzyCategory(int[] dice, int expectedScore)
         {
-            return dice.Sum();
+            var actualScore = ScoreCalculator.GetScore(dice, Category.Chance);
+            
+            Assert.Equal(expectedScore, actualScore);
         }
-    }
-
-    public enum Category
-    {
-        Chance
+        
+        
     }
 }
