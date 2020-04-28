@@ -30,7 +30,14 @@ namespace CoffeeMachine
         public string GetOrderTotalMessageCommand(DrinkType drinkType)
         {
             var drinkPrice = _drinkPrices[drinkType];
-            return $"M:Order Total: ${drinkPrice:F}";
+            return $"M:ORDER TOTAL: ${drinkPrice:F}";
+        }
+        
+        public string GetOrderNotPaidMessageCommand(DrinkType drinkType)
+        {
+            var drinkPrice = _drinkPrices[drinkType];
+            var additionalPayment = drinkPrice - AmountPaid;
+            return $"M:INSUFFICIENT PAYMENT: Additional ${additionalPayment:F} required";
         }
 
         public void RequestMoney(DrinkType coffee)
