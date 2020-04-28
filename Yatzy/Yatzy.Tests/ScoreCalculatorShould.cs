@@ -16,15 +16,13 @@ namespace Yatzy
         }        
         
         [Theory]
-        [InlineData(new[]{1, 1, 3, 3, 6}, 14)]
-        [InlineData(new[]{4, 5, 5, 6, 1}, 21)]
-        public void ReturnsFiftyForYatzyCategory(int[] dice, int expectedScore)
+        [InlineData(new[] {1, 1, 1, 1, 1}, 50)]
+        [InlineData(new[] {1, 1, 1, 2, 1}, 0)]
+        public void GivesScoreIfAllDiceSameForYatzyCategory(int[] dice, int expectedScore)
         {
-            var actualScore = ScoreCalculator.GetScore(dice, Category.Chance);
+            var actualScore = ScoreCalculator.GetScore(dice, Category.Yatzy);
             
             Assert.Equal(expectedScore, actualScore);
         }
-        
-        
     }
 }

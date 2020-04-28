@@ -2,6 +2,7 @@ namespace Yatzy
 {
     public enum Category
     {
-        Chance
+        Chance,
+        Yatzy
     }
 }
