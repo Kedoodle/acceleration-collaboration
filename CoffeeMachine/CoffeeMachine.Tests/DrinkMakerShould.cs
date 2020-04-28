@@ -86,33 +86,15 @@ namespace CoffeeMachine.Test
         public void RequestPaymentIfMoneyModuleUsed()
         {
             var mockMoneyModule = Mock.Of<IMoneyModule>(m => 
-                m.GetOrderTotalMessageCommand(It.IsAny<DrinkInstruction>()) == "M:Order Total: $0.60");
+                m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()) == "M:Order Total: $0.60" &&
+                m.AmountPaid == 0.60m);
             _drinkMaker.MoneyModule = mockMoneyModule;
             
             const string drinkCommand = "C:2:0";
             _drinkMaker.TryExecuteCommand(drinkCommand);
             
             Mock.Get(mockMoneyModule).Verify(m => 
-                m.GetOrderTotalMessageCommand(It.IsAny<DrinkInstruction>()), Times.Once);
+                m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()), Times.Once);
         }
-
-        [Theory]
-        [InlineData("C:2:0", "Order Total: $0.60")]
-        [InlineData("T:1:0", "Order Total: $0.40")]
-        [InlineData("H::", "Order Total: $0.50")]
-        public void DisplaysPaymentRequest(string drinkCommand, string expectedMessage)
-        {
-            var moneyModule = new MoneyModule();
-            _drinkMaker.MoneyModule = moneyModule;
-            
-            _drinkMaker.TryExecuteCommand(drinkCommand);
-            
-            Assert.Equal(expectedMessage, _drinkMaker.Message);
-        }
-        
-        
-
-        
-        
     }
 }

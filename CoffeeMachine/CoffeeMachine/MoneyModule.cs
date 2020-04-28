@@ -27,15 +27,20 @@ namespace CoffeeMachine
             return AmountPaid >= GetPrice();
         }
 
-        public string GetOrderTotalMessageCommand(DrinkInstruction drinkInstruction)
+        public string GetOrderTotalMessageCommand(DrinkType drinkType)
         {
-            var drinkPrice = _drinkPrices[drinkInstruction.DrinkType];
+            var drinkPrice = _drinkPrices[drinkType];
             return $"M:Order Total: ${drinkPrice:F}";
         }
 
         public void RequestMoney(DrinkType coffee)
         {
-            AmountPaid = decimal.Parse(Console.ReadLine() ?? throw new ArgumentNullException());
+            AmountPaid = GetUserPayment();
+        }
+        
+        private decimal GetUserPayment()
+        {
+            return decimal.Parse(Console.ReadLine() ?? throw new ArgumentNullException());
         }
     }
 }

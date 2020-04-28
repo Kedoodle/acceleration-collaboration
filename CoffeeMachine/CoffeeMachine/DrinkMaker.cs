@@ -28,15 +28,11 @@ namespace CoffeeMachine
                 case DrinkInstruction drinkInstruction:
                     if (!(MoneyModule is null))
                     {
-                        var messageCommand = MoneyModule.GetOrderTotalMessageCommand(drinkInstruction);
+                        var messageCommand = MoneyModule.GetOrderTotalMessageCommand(drinkInstruction.DrinkType);
                         TryExecuteCommand(messageCommand);
-                        // user input for money
+                        MoneyModule.RequestMoney(drinkInstruction.DrinkType);
+                        if (!MoneyModule.IsOrderPaid()) return false;
                     }
-                    
-                    //ask for user input
-                    //user inputs amount paid
-                    //check if enough money
-                    //if amount is not enough, return false
                     Drink = GetDrink(drinkInstruction);
                     return true;
                 case MessageInstruction messageInstruction:
