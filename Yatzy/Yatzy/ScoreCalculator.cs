@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Yatzy
@@ -7,14 +9,18 @@ namespace Yatzy
     {
         public static int GetScore(IEnumerable<int> dice, Category category)
         {
-            if (category == Category.Chance)
+            return category switch
             {
-                return dice.Sum();
-            }
-            else
-            {
-                return GetYatzyScore(dice);
-            }
+                Category.Chance => GetChanceScore(dice),
+                Category.Yatzy => GetYatzyScore(dice),
+                Category.Ones => GetOnesScore(dice),
+                _ => throw new InvalidEnumArgumentException()
+            };
+        }
+
+        private static int GetChanceScore(IEnumerable<int> dice)
+        {
+            return dice.Sum();
         }
 
         private static int GetYatzyScore(IEnumerable<int> dice)
@@ -27,6 +33,11 @@ namespace Yatzy
         private static bool AllDiceSame(IEnumerable<int> dice)
         {
             return dice.Distinct().Count() == 1;
+        }
+
+        private static int GetOnesScore(IEnumerable<int> dice)
+        {
+            return dice.Where(x => x == 1).Sum(); // show rider suggestion LINQ
         }
     }
 }

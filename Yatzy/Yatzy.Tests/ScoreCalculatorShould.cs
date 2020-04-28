@@ -24,5 +24,16 @@ namespace Yatzy
             
             Assert.Equal(expectedScore, actualScore);
         }
+
+        [Theory]
+        [InlineData(new[] {1, 1, 2, 4, 4}, 2)]
+        [InlineData(new[] {2, 3, 2, 5, 1}, 1)]
+        [InlineData(new[] {3, 3, 3, 4, 5}, 0)]
+        public void SumAllOnesForOnesCategory(int[] dice, int expectedScore)
+        {
+            var actualScore = ScoreCalculator.GetScore(dice, Category.Ones);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }
     }
 }

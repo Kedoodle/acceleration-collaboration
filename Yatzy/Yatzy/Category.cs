@@ -3,6 +3,7 @@ namespace Yatzy
     public enum Category
     {
         Chance,
-        Yatzy
+        Yatzy,
+        Ones
     }
 }
