@@ -96,5 +96,17 @@ namespace Yatzy
             
             Assert.Equal(expectedScore, actualScore);
         }
+        
+        [Theory]
+        [InlineData(new[] {3, 3, 3, 4, 4}, 8)]
+        [InlineData(new[] {1, 1, 6, 2, 6}, 12)]
+        [InlineData(new[] {3, 3, 3, 4, 1}, 6)]
+        [InlineData(new[] {3, 3, 3, 3, 1}, 6)]
+        public void SumHighestPairForPairCategory(int[] dice, int expectedScore)
+        {
+            var actualScore = ScoreCalculator.GetScore(dice, Category.Pair);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }
     }
 }

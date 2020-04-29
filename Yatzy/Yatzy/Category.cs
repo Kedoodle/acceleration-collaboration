@@ -9,6 +9,7 @@ namespace Yatzy
         Threes,
         Fours,
         Fives,
-        Sixes
+        Sixes,
+        Pair
     }
 }
