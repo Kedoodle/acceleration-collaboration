@@ -18,7 +18,7 @@ namespace CoffeeMachine.Test
         [InlineData("H::", DrinkType.HotChocolate, 0, false)]
         [InlineData("C:2:0", DrinkType.Coffee, 2, true)]
         [InlineData("O::", DrinkType.OrangeJuice, 0, false)]
-        public void GetNewDrinkObjectGivenDrinkCommand(string drinkCommand, DrinkType expectedDrinkType, int expectedSugars, bool expectedStick )
+        public void CreateDifferentDrinksGivenDrinkCommand(string drinkCommand, DrinkType expectedDrinkType, int expectedSugars, bool expectedStick )
         {
             
             var wasCommandExecuted = _drinkMaker.TryExecuteCommand(drinkCommand);
@@ -28,6 +28,23 @@ namespace CoffeeMachine.Test
             Assert.Equal(expectedDrinkType, drink.DrinkType);
             Assert.Equal(expectedSugars, drink.Sugars);
             Assert.Equal(expectedStick, drink.HasStick());
+        }
+        
+        [Theory]
+        [InlineData("Ch::", DrinkType.Coffee, 0, false, true)]
+        [InlineData("Hh:1:0", DrinkType.HotChocolate, 1, true, true)]
+        [InlineData("Th:2:0", DrinkType.Tea, 2, true, true)]
+        public void CreateDifferentExtraHotDrinksGivenDrinkCommand(string drinkCommand, DrinkType expectedDrinkType, int expectedSugars, bool expectedStick, bool expectedExtraHot )
+        {
+            
+            var wasCommandExecuted = _drinkMaker.TryExecuteCommand(drinkCommand);
+            var drink = _drinkMaker.Drink;
+            
+            Assert.True(wasCommandExecuted);
+            Assert.Equal(expectedDrinkType, drink.DrinkType);
+            Assert.Equal(expectedSugars, drink.Sugars);
+            Assert.Equal(expectedStick, drink.HasStick());
+            Assert.Equal(expectedExtraHot, drink.IsExtraHot);
         }
         
         [Fact]
@@ -71,6 +88,8 @@ namespace CoffeeMachine.Test
             Mock.Get(mockMoneyModule).Verify(m => 
                 m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()), Times.Once);
         }
+        
+        
 
     }
 }

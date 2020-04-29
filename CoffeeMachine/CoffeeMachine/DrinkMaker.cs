@@ -63,13 +63,13 @@ namespace CoffeeMachine
             switch (drinkInstruction.DrinkType)
             {
                 case DrinkType.Tea:
-                    return new Tea {Sugars = drinkInstruction.Sugars};
+                    return new Tea {Sugars = drinkInstruction.Sugars, IsExtraHot = drinkInstruction.IsExtraHot};
                 case DrinkType.Coffee:
-                    return new Coffee {Sugars = drinkInstruction.Sugars};
+                    return new Coffee {Sugars = drinkInstruction.Sugars, IsExtraHot = drinkInstruction.IsExtraHot};
                 case DrinkType.HotChocolate:
-                    return new HotChocolate {Sugars = drinkInstruction.Sugars};
+                    return new HotChocolate {Sugars = drinkInstruction.Sugars, IsExtraHot = drinkInstruction.IsExtraHot};
                 case DrinkType.OrangeJuice:
-                    return new OrangeJuice {Sugars = drinkInstruction.Sugars};
+                    return new OrangeJuice {Sugars = drinkInstruction.Sugars, IsExtraHot = drinkInstruction.IsExtraHot};
                 default:
                     throw new ArgumentOutOfRangeException(nameof(drinkInstruction.DrinkType), drinkInstruction.DrinkType, null);
             }
