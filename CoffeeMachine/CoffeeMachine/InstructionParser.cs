@@ -9,7 +9,8 @@ namespace CoffeeMachine
         {
             {"T", DrinkType.Tea},
             {"H", DrinkType.HotChocolate},
-            {"C", DrinkType.Coffee}
+            {"C", DrinkType.Coffee},
+            {"O", DrinkType.OrangeJuice}
         };
         
         public static bool TryParse(string command, out IInstruction instruction)
@@ -29,6 +30,7 @@ namespace CoffeeMachine
                 case "C:":
                 case "T:":
                 case "H:":
+                case "O:":
                     instruction = GetDrinkInstruction(command);
                     return true;
                 default:

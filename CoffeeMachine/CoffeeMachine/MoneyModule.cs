@@ -9,7 +9,8 @@ namespace CoffeeMachine
         {
             {DrinkType.Coffee, 0.6m},
             {DrinkType.Tea, 0.4m},
-            {DrinkType.HotChocolate, 0.5m}
+            {DrinkType.HotChocolate, 0.5m},
+            {DrinkType.OrangeJuice, 0.6m}
         };
 
         public DrinkType DrinkOrder { get; set; }

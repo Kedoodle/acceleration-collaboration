@@ -4,6 +4,7 @@ namespace CoffeeMachine
     {
         Tea,
         Coffee,
-        HotChocolate
+        HotChocolate,
+        OrangeJuice
     }
 }

@@ -68,9 +68,12 @@ namespace CoffeeMachine
                     return new Coffee {Sugars = drinkInstruction.Sugars};
                 case DrinkType.HotChocolate:
                     return new HotChocolate {Sugars = drinkInstruction.Sugars};
+                case DrinkType.OrangeJuice:
+                    return new OrangeJuice {Sugars = drinkInstruction.Sugars};
                 default:
                     throw new ArgumentOutOfRangeException(nameof(drinkInstruction.DrinkType), drinkInstruction.DrinkType, null);
             }
         }
     }
+    
 }

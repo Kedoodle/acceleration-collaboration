@@ -13,46 +13,21 @@ namespace CoffeeMachine.Test
             _drinkMaker = new DrinkMaker();
         }
         
-        [Fact]
-        public void GetNewTeaObjectGivenDrinkCommand()
+        [Theory]
+        [InlineData("T:1:0", DrinkType.Tea, 1, true)]
+        [InlineData("H::", DrinkType.HotChocolate, 0, false)]
+        [InlineData("C:2:0", DrinkType.Coffee, 2, true)]
+        [InlineData("O::", DrinkType.OrangeJuice, 0, false)]
+        public void GetNewDrinkObjectGivenDrinkCommand(string drinkCommand, DrinkType expectedDrinkType, int expectedSugars, bool expectedStick )
         {
-            const string drinkCommand = "T:1:0";
-
+            
             var wasCommandExecuted = _drinkMaker.TryExecuteCommand(drinkCommand);
             var drink = _drinkMaker.Drink;
             
             Assert.True(wasCommandExecuted);
-            Assert.Equal(DrinkType.Tea, drink.DrinkType);
-            Assert.Equal(1, drink.Sugars);
-            Assert.True(drink.HasStick());
-        }
-
-        [Fact]
-        public void GetNewHotChocolateObjectGivenDrinkCommand()
-        {
-            const string drinkCommand = "H::";
-            
-            var wasCommandExecuted = _drinkMaker.TryExecuteCommand(drinkCommand);
-            var drink = _drinkMaker.Drink;
-
-            Assert.True(wasCommandExecuted);
-            Assert.Equal(DrinkType.HotChocolate, drink.DrinkType);
-            Assert.Equal(0, drink.Sugars);
-            Assert.False(drink.HasStick());
-        }
-        
-        [Fact]
-        public void GetNewCoffeeObjectGivenDrinkCommand()
-        {
-            const string drinkCommand = "C:2:0";
-            
-            var wasCommandExecuted = _drinkMaker.TryExecuteCommand(drinkCommand);
-            var drink = _drinkMaker.Drink;
-
-            Assert.True(wasCommandExecuted);
-            Assert.Equal(DrinkType.Coffee, drink.DrinkType);
-            Assert.Equal(2, drink.Sugars);
-            Assert.True(drink.HasStick());
+            Assert.Equal(expectedDrinkType, drink.DrinkType);
+            Assert.Equal(expectedSugars, drink.Sugars);
+            Assert.Equal(expectedStick, drink.HasStick());
         }
         
         [Fact]
@@ -96,5 +71,6 @@ namespace CoffeeMachine.Test
             Mock.Get(mockMoneyModule).Verify(m => 
                 m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()), Times.Once);
         }
+
     }
 }
