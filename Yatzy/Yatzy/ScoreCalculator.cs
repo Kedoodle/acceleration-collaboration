@@ -13,7 +13,12 @@ namespace Yatzy
             {
                 Category.Chance => GetChanceScore(dice),
                 Category.Yatzy => GetYatzyScore(dice),
-                Category.Ones => GetOnesScore(dice),
+                Category.Ones => GetFacesScore(dice, 1),
+                Category.Twos => GetFacesScore(dice, 2),
+                Category.Threes => GetFacesScore(dice, 3),
+                Category.Fours => GetFacesScore(dice, 4),
+                Category.Fives => GetFacesScore(dice, 5),
+                Category.Sixes => GetFacesScore(dice, 6),
                 _ => throw new InvalidEnumArgumentException()
             };
         }
@@ -35,9 +40,9 @@ namespace Yatzy
             return dice.Distinct().Count() == 1;
         }
 
-        private static int GetOnesScore(IEnumerable<int> dice)
+        private static int GetFacesScore(IEnumerable<int> dice, int face)
         {
-            return dice.Where(x => x == 1).Sum(); // show rider suggestion LINQ
+            return dice.Where(die => die == face).Sum();
         }
     }
 }
