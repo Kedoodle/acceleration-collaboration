@@ -58,21 +58,9 @@ namespace CoffeeMachine
             return messageInstruction.Message;
         }
 
-        private IDrink GetDrink(DrinkInstruction drinkInstruction)
+        private static IDrink GetDrink(DrinkInstruction drinkInstruction)
         {
-            switch (drinkInstruction.DrinkType)
-            {
-                case DrinkType.Tea:
-                    return new Tea {Sugars = drinkInstruction.Sugars, IsExtraHot = drinkInstruction.IsExtraHot};
-                case DrinkType.Coffee:
-                    return new Coffee {Sugars = drinkInstruction.Sugars, IsExtraHot = drinkInstruction.IsExtraHot};
-                case DrinkType.HotChocolate:
-                    return new HotChocolate {Sugars = drinkInstruction.Sugars, IsExtraHot = drinkInstruction.IsExtraHot};
-                case DrinkType.OrangeJuice:
-                    return new OrangeJuice {Sugars = drinkInstruction.Sugars, IsExtraHot = drinkInstruction.IsExtraHot};
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(drinkInstruction.DrinkType), drinkInstruction.DrinkType, null);
-            }
+            return new Drink(drinkInstruction.DrinkType, drinkInstruction.Sugars, drinkInstruction.IsExtraHot);
         }
     }
     

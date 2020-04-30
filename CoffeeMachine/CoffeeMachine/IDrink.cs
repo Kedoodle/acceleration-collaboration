@@ -2,10 +2,9 @@ namespace CoffeeMachine
 {
     public interface IDrink
     {
-        DrinkType DrinkType { get;}
-        int Sugars { get; set; }
-        bool IsExtraHot { get; set; }
+        DrinkType DrinkType { get; }
+        int Sugars { get; }
+        bool IsExtraHot { get; }
         bool HasStick();
-
     }
 }
