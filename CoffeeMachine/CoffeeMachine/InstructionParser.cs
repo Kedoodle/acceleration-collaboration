@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CoffeeMachine
 {
@@ -14,39 +15,39 @@ namespace CoffeeMachine
         
         public static bool TryParse(string command, out IInstruction instruction)
         {
-            //TODO: refactor this function to a validator function
-            if (command.Length < 2)
+            if (IsMessageCommand(command))
             {
-                instruction = new ErrorMessageInstruction("Invalid command code!");
-                return false;
-                
+                instruction = GetMessageInstruction(command);
+                return true;
             }
-            switch (command.Substring(0, 2))
+            
+            if (IsDrinkCommand(command))
             {
-                case "M:":
-                    instruction = GetMessageInstruction(command);
-                    return true;
-                case "C:":
-                case "T:":
-                case "H:":
-                case "O:":
-                case "Ch":
-                case "Th":
-                case "Hh":
-                    instruction = GetDrinkInstruction(command);
-                    return true;
-                default:
-                    instruction = new ErrorMessageInstruction("Invalid command code!");
-                    return false;
+                instruction = GetDrinkInstruction(command);
+                return true;
             }
+            
+            instruction = new ErrorMessageInstruction("Invalid command code!");
+            return false;
         }
-        
+
+        private static bool IsMessageCommand(string command)
+        {
+            const string messageCommandCode = "M:";
+            return command.StartsWith(messageCommandCode);
+        }
+
         private static IInstruction GetMessageInstruction(string command)
         {
             var message = command.Length == 2 ? "" : command.Substring(2);
             return new MessageInstruction(message);
         }
-
+        
+        private static bool IsDrinkCommand(string command)
+        {
+            var validDrinkCommands = new[] {"C:", "T:", "H:", "O:", "Ch:", "Th:", "Hh"};
+            return validDrinkCommands.Any(command.StartsWith);
+        }
 
         private static IInstruction GetDrinkInstruction(string command)
         {
@@ -56,12 +57,11 @@ namespace CoffeeMachine
             var isExtraHot = GetIsExtraHot(instructionComponents);
             return new DrinkInstruction(drinkType, sugars, isExtraHot);
         }
-
-        private static bool GetIsExtraHot(string[] instructionComponents)
+        
+        private static DrinkType GetDrinkType(string[] instructionComponents)
         {
-
-            var drinkComponent = instructionComponents[0];
-            return drinkComponent.Length > 1 && drinkComponent[1] == 'h';
+            var drinkCode = instructionComponents[0][0];
+            return _drinkCodes[drinkCode];
         }
 
         private static int GetSugars(string[] instructionComponents)
@@ -71,12 +71,11 @@ namespace CoffeeMachine
             return sugars;
         }
 
-
-        private static DrinkType GetDrinkType(string[] instructionComponents)
+        private static bool GetIsExtraHot(string[] instructionComponents)
         {
-            var drinkCode = instructionComponents[0][0];
-            return _drinkCodes[drinkCode];
-        }
 
+            var drinkComponent = instructionComponents[0];
+            return drinkComponent.Length > 1 && drinkComponent[1] == 'h';
+        }
     }
 }
