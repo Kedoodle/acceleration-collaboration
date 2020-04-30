@@ -1,22 +1,9 @@
-using System;
-
 namespace CoffeeMachine
 {
     public class DrinkMaker
     {
-        // public DrinkMaker(MoneyModule)
-        // {
-        //     
-        // }
-        // public bool TryMakeDrink(string drinkCommand, out IDrink drink)
-        // {
-        //     InstructionParser.TryParse(drinkCommand, out var drinkInstruction);
-        //     drink = GetDrink(drinkInstruction);
-        //     return true;
-        // }
-
         public IDrink Drink { get; private set; }
-        public string Message { get; set; }
+        public string Message { get; private set; }
 
         public IMoneyModule MoneyModule { get; set; }
         
@@ -26,7 +13,7 @@ namespace CoffeeMachine
             switch (instruction)
             {
                 case DrinkInstruction drinkInstruction:
-                    if (!(MoneyModule is null))
+                    if (HasMoneyModule())
                     {
                         var messageCommand = MoneyModule.GetOrderTotalMessageCommand(drinkInstruction.DrinkType);
                         TryExecuteCommand(messageCommand);
@@ -45,8 +32,11 @@ namespace CoffeeMachine
                     return false;
             }
         }
-        
-        //function check if moneymodule is used
+
+        private bool HasMoneyModule()
+        {
+            return !(MoneyModule is null);
+        }
 
         private static string ErrorMessage(ErrorMessageInstruction errorMessageInstruction)
         {
@@ -63,5 +53,4 @@ namespace CoffeeMachine
             return new Drink(drinkInstruction.DrinkType, drinkInstruction.Sugars, drinkInstruction.IsExtraHot);
         }
     }
-    
 }
