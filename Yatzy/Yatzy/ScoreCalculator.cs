@@ -19,8 +19,42 @@ namespace Yatzy
                 Category.Fours => GetFacesScore(dice, 4),
                 Category.Fives => GetFacesScore(dice, 5),
                 Category.Sixes => GetFacesScore(dice, 6),
+                Category.Pair => GetPairScore(dice),
                 _ => throw new InvalidEnumArgumentException()
             };
+        }
+
+        private static int GetPairScore(IEnumerable<int> dice)
+        {
+            // copy dice to new list
+            // get distinct values in list
+            // remove distinct values from list
+            // get max value in remaining items in list
+            // return 2 * max value
+            
+            var diceWithPair = GetAllPairs(dice); // dice.Where(die => dice.Count(d => d == die) > 1);
+            return diceWithPair.Max() * 2;
+            1 1 2 3 4
+                
+                
+            // sort dice descending
+            // loop through dice
+                // if die in dice at least twice, return 2 * die
+            // return 0
+            
+            
+            // set biggestpair = 0
+            // loop through dice
+                // if die in dice at least twice, if die > biggestpair set biggestpair = die
+            // return biggest
+            
+            
+            var diceGroupedByFace = dice.GroupBy(die => die);
+            var facesWithPair= diceGroupedByFace.Where(group => group.Count() > 1);
+            1 1 2 3 4
+                
+                33316
+                                
         }
 
         private static int GetChanceScore(IEnumerable<int> dice)
