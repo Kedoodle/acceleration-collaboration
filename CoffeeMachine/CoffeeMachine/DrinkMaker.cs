@@ -13,13 +13,17 @@ namespace CoffeeMachine
             switch (instruction)
             {
                 case DrinkInstruction drinkInstruction:
+                    var revenue = 0;
                     if (HasMoneyModule())
                     {
                         var messageCommand = MoneyModule.GetOrderTotalMessageCommand(drinkInstruction.DrinkType);
                         TryExecuteCommand(messageCommand);
                         MoneyModule.RequestMoney(drinkInstruction.DrinkType);
                         if (!MoneyModule.IsOrderPaid()) return false;
+                        
                     }
+                    //reporting
+                    
                     Drink = GetDrink(drinkInstruction);
                     return true;
                 case MessageInstruction messageInstruction:
