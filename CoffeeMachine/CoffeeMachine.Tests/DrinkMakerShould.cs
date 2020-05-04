@@ -6,12 +6,13 @@ namespace CoffeeMachine.Test
 {
     public class DrinkMakerShould
     {
-        private readonly DrinkMaker _drinkMaker;
+        private IMoneyModule _dummyMoneyModule;
 
         public DrinkMakerShould()
         {
-            _drinkMaker = new DrinkMaker();
+            _dummyMoneyModule = Mock.Of<IMoneyModule>();
         }
+        
         
         [Theory]
         [InlineData("T:1:0", DrinkType.Tea, 1, true)]
@@ -20,9 +21,13 @@ namespace CoffeeMachine.Test
         [InlineData("O::", DrinkType.OrangeJuice, 0, false)]
         public void CreateDifferentDrinksGivenDrinkCommand(string drinkCommand, DrinkType expectedDrinkType, int expectedSugars, bool expectedStick )
         {
+            var stubMoneyModule = Mock.Of<IMoneyModule>(m => 
+                    m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()) == "M:" &&
+                    m.IsOrderPaid());
             
-            var wasCommandExecuted = _drinkMaker.TryExecuteCommand(drinkCommand);
-            var drink = _drinkMaker.Drink;
+            var drinkMaker = new DrinkMaker(stubMoneyModule);
+            var wasCommandExecuted = drinkMaker.TryExecuteCommand(drinkCommand);
+            var drink = drinkMaker.Drink;
             
             Assert.True(wasCommandExecuted);
             Assert.Equal(expectedDrinkType, drink.DrinkType);
@@ -36,9 +41,13 @@ namespace CoffeeMachine.Test
         [InlineData("Th:2:0", DrinkType.Tea, 2, true, true)]
         public void CreateDifferentExtraHotDrinksGivenDrinkCommand(string drinkCommand, DrinkType expectedDrinkType, int expectedSugars, bool expectedStick, bool expectedExtraHot )
         {
+            var stubMoneyModule = Mock.Of<IMoneyModule>(m => 
+                m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()) == "M:" &&
+                m.IsOrderPaid());
             
-            var wasCommandExecuted = _drinkMaker.TryExecuteCommand(drinkCommand);
-            var drink = _drinkMaker.Drink;
+            var drinkMaker = new DrinkMaker(stubMoneyModule);
+            var wasCommandExecuted = drinkMaker.TryExecuteCommand(drinkCommand);
+            var drink = drinkMaker.Drink;
             
             Assert.True(wasCommandExecuted);
             Assert.Equal(expectedDrinkType, drink.DrinkType);
@@ -50,10 +59,10 @@ namespace CoffeeMachine.Test
         [Fact]
         public void FailsGivenInvalidCommandCode()
         {
+            var drinkMaker = new DrinkMaker(_dummyMoneyModule);
             const string invalidCommand = "Z";
-            
-            var wasCommandExecuted = _drinkMaker.TryExecuteCommand(invalidCommand);
-            var drink = _drinkMaker.Drink;
+            var wasCommandExecuted = drinkMaker.TryExecuteCommand(invalidCommand);
+            var drink = drinkMaker.Drink;
 
             Assert.False(wasCommandExecuted);
             Assert.Null(drink);
@@ -62,12 +71,14 @@ namespace CoffeeMachine.Test
         [Fact]
         public void ForwardMessageReceived()
         {
+            var drinkMaker = new DrinkMaker(_dummyMoneyModule);
+            
             const string messageCommand = "M:message-content";
             const string expectedMessage = "message-content";
             
-            var wasCommandExecuted = _drinkMaker.TryExecuteCommand(messageCommand);
-            var drink = _drinkMaker.Drink;
-            var message = _drinkMaker.Message;
+            var wasCommandExecuted = drinkMaker.TryExecuteCommand(messageCommand);
+            var drink = drinkMaker.Drink;
+            var message = drinkMaker.Message;
 
             Assert.True(wasCommandExecuted);
             Assert.Null(drink);
@@ -80,16 +91,14 @@ namespace CoffeeMachine.Test
             var mockMoneyModule = Mock.Of<IMoneyModule>(m => 
                 m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()) == "M:Order Total: $0.60" &&
                 m.AmountPaid == 0.60m);
-            _drinkMaker.MoneyModule = mockMoneyModule;
-            
+            var drinkMaker = new DrinkMaker(mockMoneyModule);
+
             const string drinkCommand = "C:2:0";
-            _drinkMaker.TryExecuteCommand(drinkCommand);
+            drinkMaker.TryExecuteCommand(drinkCommand);
             
             Mock.Get(mockMoneyModule).Verify(m => 
                 m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()), Times.Once);
         }
         
-        
-
     }
 }

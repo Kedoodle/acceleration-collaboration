@@ -2,10 +2,15 @@ namespace CoffeeMachine
 {
     public class DrinkMaker
     {
+        private readonly IMoneyModule _moneyModule;
+
+        public DrinkMaker(IMoneyModule moneyModule)
+        {
+            _moneyModule = moneyModule;
+        }
+
         public IDrink Drink { get; private set; }
         public string Message { get; private set; }
-
-        public IMoneyModule MoneyModule { get; set; }
         
         public bool TryExecuteCommand(string command)
         {
@@ -16,13 +21,13 @@ namespace CoffeeMachine
                     var revenue = 0;
                     if (HasMoneyModule())
                     {
-                        var messageCommand = MoneyModule.GetOrderTotalMessageCommand(drinkInstruction.DrinkType);
+                        var messageCommand = _moneyModule.GetOrderTotalMessageCommand(drinkInstruction.DrinkType);
                         TryExecuteCommand(messageCommand);
-                        MoneyModule.RequestMoney(drinkInstruction.DrinkType);
-                        if (!MoneyModule.IsOrderPaid()) return false;
+                        _moneyModule.RequestMoney(drinkInstruction.DrinkType);
+                        if (!_moneyModule.IsOrderPaid()) return false;
                         
                     }
-                    //reporting
+
                     
                     Drink = GetDrink(drinkInstruction);
                     return true;
@@ -39,7 +44,7 @@ namespace CoffeeMachine
 
         private bool HasMoneyModule()
         {
-            return !(MoneyModule is null);
+            return !(_moneyModule is null);
         }
 
         private static string ErrorMessage(ErrorMessageInstruction errorMessageInstruction)
