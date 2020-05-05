@@ -18,13 +18,13 @@ namespace CoffeeMachine.Tests
         }
 
         [Fact]
-        public void GenerateReportByGivenDate()
+        public void GenerateFullReportByGivenDate()
         {
             var expectedReport = "Date: 04-May-2020" + Environment.NewLine +
-                                 "Coffee: 3" + Environment.NewLine +//180c
-                                 "Tea: 2" + Environment.NewLine +//80c
-                                 "Hot Chocolate: 1" + Environment.NewLine +//50c
-                                 "Total Earned: $3.10";
+                                        "Coffee: 3" + Environment.NewLine + //180c
+                                        "Hot Chocolate: 1" + Environment.NewLine + //50c
+                                        "Tea: 2" + Environment.NewLine + //80c
+                                        "Total Earned: $3.10";
             
             var reportingModule = new ReportingModule();
             reportingModule.AddOrder(new OrderDetails(DrinkType.Coffee, 0.6m));
@@ -34,9 +34,7 @@ namespace CoffeeMachine.Tests
             reportingModule.AddOrder(new OrderDetails(DrinkType.Tea, 0.4m));
             reportingModule.AddOrder(new OrderDetails(DrinkType.HotChocolate, 0.5m));
             
-            Assert.Equal(expectedReport, reportingModule.GenerateReport(DateTime.Today));
-
+            Assert.Equal(expectedReport, reportingModule.GenerateReport(DateTime.Parse("2020-05-04")));
         }
-
     }
 }

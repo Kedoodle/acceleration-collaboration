@@ -1,6 +1,6 @@
 using System;
 
-namespace CoffeeMachine.Tests
+namespace CoffeeMachine
 {
     public class OrderDetails
     {
