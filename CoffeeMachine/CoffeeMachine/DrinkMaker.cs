@@ -21,9 +21,10 @@ namespace CoffeeMachine
                     var revenue = 0;
                     if (HasMoneyModule())
                     {
-                        var messageCommand = _moneyModule.GetOrderTotalMessageCommand(drinkInstruction.DrinkType);
+                        _moneyModule.DrinkOrder = drinkInstruction.DrinkType;
+                        var messageCommand = _moneyModule.GetOrderTotalMessageCommand();
                         TryExecuteCommand(messageCommand);
-                        _moneyModule.RequestMoney(drinkInstruction.DrinkType);
+                        _moneyModule.RequestMoney();
                         if (!_moneyModule.IsOrderPaid()) return false;
                         
                     }

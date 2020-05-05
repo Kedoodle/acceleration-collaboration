@@ -22,7 +22,7 @@ namespace CoffeeMachine.Test
         public void CreateDifferentDrinksGivenDrinkCommand(string drinkCommand, DrinkType expectedDrinkType, int expectedSugars, bool expectedStick )
         {
             var stubMoneyModule = Mock.Of<IMoneyModule>(m => 
-                    m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()) == "M:" &&
+                    m.GetOrderTotalMessageCommand() == "M:" &&
                     m.IsOrderPaid());
             
             var drinkMaker = new DrinkMaker(stubMoneyModule);
@@ -42,7 +42,7 @@ namespace CoffeeMachine.Test
         public void CreateDifferentExtraHotDrinksGivenDrinkCommand(string drinkCommand, DrinkType expectedDrinkType, int expectedSugars, bool expectedStick, bool expectedExtraHot )
         {
             var stubMoneyModule = Mock.Of<IMoneyModule>(m => 
-                m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()) == "M:" &&
+                m.GetOrderTotalMessageCommand() == "M:" &&
                 m.IsOrderPaid());
             
             var drinkMaker = new DrinkMaker(stubMoneyModule);
@@ -89,7 +89,7 @@ namespace CoffeeMachine.Test
         public void RequestPaymentIfMoneyModuleUsed()
         {
             var mockMoneyModule = Mock.Of<IMoneyModule>(m => 
-                m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()) == "M:Order Total: $0.60" &&
+                m.GetOrderTotalMessageCommand() == "M:Order Total: $0.60" &&
                 m.AmountPaid == 0.60m);
             var drinkMaker = new DrinkMaker(mockMoneyModule);
 
@@ -97,7 +97,7 @@ namespace CoffeeMachine.Test
             drinkMaker.TryExecuteCommand(drinkCommand);
             
             Mock.Get(mockMoneyModule).Verify(m => 
-                m.GetOrderTotalMessageCommand(It.IsAny<DrinkType>()), Times.Once);
+                m.GetOrderTotalMessageCommand(), Times.Once);
         }
         
     }

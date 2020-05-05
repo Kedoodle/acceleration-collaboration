@@ -1,47 +1,36 @@
 using System;
-using System.Collections.Generic;
 
 namespace CoffeeMachine
 {
     public class MoneyModule : IMoneyModule
     {
-        private readonly Dictionary<DrinkType, decimal> _drinkPrices = new Dictionary<DrinkType, decimal>()
-        {
-            {DrinkType.Coffee, 0.6m},
-            {DrinkType.Tea, 0.4m},
-            {DrinkType.HotChocolate, 0.5m},
-            {DrinkType.OrangeJuice, 0.6m}
-        };
-
         public DrinkType DrinkOrder { get; set; }
         public decimal AmountPaid { get; set; }
-
-
-        private decimal GetPrice()
-        {
-            return _drinkPrices[DrinkOrder];
-        }
         
-        //TODO: refactor this to have an out message instruction if order is paid 
         public bool IsOrderPaid()
         {
-            return AmountPaid >= GetPrice();
+            return AmountPaid >= GetDrinkPrice();
+        }
+        
+        private decimal GetDrinkPrice()
+        {
+            return DrinkExtensions.GetPrice(DrinkOrder);
         }
 
-        public string GetOrderTotalMessageCommand(DrinkType drinkType)
+        public string GetOrderTotalMessageCommand()
         {
-            var drinkPrice = _drinkPrices[drinkType];
+            var drinkPrice = GetDrinkPrice();
             return $"M:ORDER TOTAL: ${drinkPrice:F}";
         }
         
-        public string GetOrderNotPaidMessageCommand(DrinkType drinkType)
+        public string GetOrderNotPaidMessageCommand()
         {
-            var drinkPrice = _drinkPrices[drinkType];
+            var drinkPrice = GetDrinkPrice();
             var additionalPayment = drinkPrice - AmountPaid;
             return $"M:INSUFFICIENT PAYMENT: Additional ${additionalPayment:F} required";
         }
 
-        public void RequestMoney(DrinkType coffee)
+        public void RequestMoney()
         {
             AmountPaid = GetUserPayment();
         }

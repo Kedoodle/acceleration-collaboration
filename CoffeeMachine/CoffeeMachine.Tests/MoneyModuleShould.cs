@@ -33,8 +33,8 @@ namespace CoffeeMachine.Test
         [InlineData(DrinkType.OrangeJuice, "M:ORDER TOTAL: $0.60")]
         public void GetOrderTotalMessageCommand(DrinkType drinkType, string expectedMessageCommand)
         {
-            var moneyModule = new MoneyModule();
-            var actualMessageCommand = moneyModule.GetOrderTotalMessageCommand(drinkType);
+            var moneyModule = new MoneyModule {DrinkOrder = drinkType};
+            var actualMessageCommand = moneyModule.GetOrderTotalMessageCommand();
             
             Assert.Equal(expectedMessageCommand, actualMessageCommand);
         }
@@ -48,8 +48,8 @@ namespace CoffeeMachine.Test
         
         public void GetOrderNotPaidMessageCommand(DrinkType drinkType, decimal amountPaid, string expectedMessageCommand)
         {
-            var moneyModule = new MoneyModule {AmountPaid = amountPaid};
-            var actualMessageCommand = moneyModule.GetOrderNotPaidMessageCommand(drinkType);
+            var moneyModule = new MoneyModule {DrinkOrder = drinkType, AmountPaid = amountPaid};
+            var actualMessageCommand = moneyModule.GetOrderNotPaidMessageCommand();
             
             Assert.Equal(expectedMessageCommand, actualMessageCommand);
         }
