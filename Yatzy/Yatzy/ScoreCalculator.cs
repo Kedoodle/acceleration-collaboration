@@ -5,61 +5,63 @@ using System.Linq;
 
 namespace Yatzy
 {
-    public static class ScoreCalculator
+    public class ScoreCalculator
     {
-        public static int GetScore(IEnumerable<int> dice, Category category)
+        public IEnumerable<int> Dice { get; set; }
+        
+        public int GetScore(Category category)
         {
             return category switch
             {
-                Category.Chance => GetChanceScore(dice),
-                Category.Yatzy => GetYatzyScore(dice),
-                Category.Ones => GetFacesScore(dice, 1),
-                Category.Twos => GetFacesScore(dice, 2),
-                Category.Threes => GetFacesScore(dice, 3),
-                Category.Fours => GetFacesScore(dice, 4),
-                Category.Fives => GetFacesScore(dice, 5),
-                Category.Sixes => GetFacesScore(dice, 6),
-                Category.Pair => GetPairScore(dice),
+                Category.Chance => GetChanceScore(),
+                Category.Yatzy => GetYatzyScore(),
+                Category.Ones => GetFacesScore(1),
+                Category.Twos => GetFacesScore(2),
+                Category.Threes => GetFacesScore(3),
+                Category.Fours => GetFacesScore(4),
+                Category.Fives => GetFacesScore(5),
+                Category.Sixes => GetFacesScore(6),
+                Category.Pair => GetPairScore(),
                 _ => throw new InvalidEnumArgumentException()
             };
         }
 
-        private static int GetChanceScore(IEnumerable<int> dice)
+        private int GetChanceScore()
         {
-            return dice.Sum();
+            return Dice.Sum();
         }
 
-        private static int GetYatzyScore(IEnumerable<int> dice)
+        private int GetYatzyScore()
         {
             const int scoreForAllDiceSame = 50;
             const int scoreForDifferentDice = 0;
-            return AllDiceSame(dice) ? scoreForAllDiceSame : scoreForDifferentDice;
+            return AllDiceSame() ? scoreForAllDiceSame : scoreForDifferentDice;
         }
 
-        private static bool AllDiceSame(IEnumerable<int> dice)
+        private bool AllDiceSame()
         {
-            return dice.Distinct().Count() == 1;
+            return Dice.Distinct().Count() == 1;
         }
 
-        private static int GetFacesScore(IEnumerable<int> dice, int face)
+        private int GetFacesScore(int face)
         {
-            return dice.Where(die => die == face).Sum();
+            return Dice.Where(die => die == face).Sum();
         }
 
-        private static int GetPairScore(IEnumerable<int> dice)
+        private int GetPairScore()
         {
-            return GetBiggestPair(dice) * 2;
+            return GetBiggestPair() * 2;
         }
 
-        private static int GetBiggestPair(IEnumerable<int> dice)
+        private int GetBiggestPair()
         {
-            return dice.Where(die => HasPairOf(dice, die)).Max();
+            return Dice.Where(IsPair).Max();
 
         }
 
-        private static bool HasPairOf(IEnumerable<int> dice, int die)
+        private bool IsPair(int die)
         {
-            return dice.Count(d => d == die) > 1;
+            return Dice.Count(d => d == die) > 1;
         }
     }
 }
