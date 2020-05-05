@@ -24,27 +24,6 @@ namespace Yatzy
             };
         }
 
-        private static int GetPairScore(IEnumerable<int> dice)
-        {
-            var biggestPair = 0;
-            foreach (var die in dice)
-            {
-                biggestPair = UpdateBiggestPair(dice, die, biggestPair);
-            }
-            return biggestPair * 2;
-        }
-
-        private static int UpdateBiggestPair(IEnumerable<int> dice, int die, int biggestPair)
-        {
-            if (dice.Count(d => d == die) <= 1) return biggestPair;
-            if (die > biggestPair)
-            {
-                biggestPair = die;
-            }
-
-            return biggestPair;
-        }
-
         private static int GetChanceScore(IEnumerable<int> dice)
         {
             return dice.Sum();
@@ -65,6 +44,22 @@ namespace Yatzy
         private static int GetFacesScore(IEnumerable<int> dice, int face)
         {
             return dice.Where(die => die == face).Sum();
+        }
+
+        private static int GetPairScore(IEnumerable<int> dice)
+        {
+            return GetBiggestPair(dice) * 2;
+        }
+
+        private static int GetBiggestPair(IEnumerable<int> dice)
+        {
+            return dice.Where(die => HasPairOf(dice, die)).Max();
+
+        }
+
+        private static bool HasPairOf(IEnumerable<int> dice, int die)
+        {
+            return dice.Count(d => d == die) > 1;
         }
     }
 }
