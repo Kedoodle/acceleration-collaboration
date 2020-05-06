@@ -18,18 +18,11 @@ namespace CoffeeMachine
             switch (instruction)
             {
                 case DrinkInstruction drinkInstruction:
-                    var revenue = 0;
-                    if (HasMoneyModule())
-                    {
-                        _moneyModule.DrinkOrder = drinkInstruction.DrinkType;
-                        var messageCommand = _moneyModule.GetOrderTotalMessageCommand();
-                        TryExecuteCommand(messageCommand);
-                        _moneyModule.RequestMoney();
-                        if (!_moneyModule.IsOrderPaid()) return false;
-                        
-                    }
-
-                    
+                    _moneyModule.DrinkOrder = drinkInstruction.DrinkType;
+                    var messageCommand = _moneyModule.GetOrderTotalMessageCommand();
+                    TryExecuteCommand(messageCommand);
+                    _moneyModule.RequestMoney();
+                    if (!_moneyModule.IsOrderPaid()) return false;
                     Drink = GetDrink(drinkInstruction);
                     return true;
                 case MessageInstruction messageInstruction:
@@ -42,12 +35,7 @@ namespace CoffeeMachine
                     return false;
             }
         }
-
-        private bool HasMoneyModule()
-        {
-            return !(_moneyModule is null);
-        }
-
+        
         private static string ErrorMessage(ErrorMessageInstruction errorMessageInstruction)
         {
             return errorMessageInstruction.ErrorMessage;
