@@ -3,10 +3,14 @@ namespace CoffeeMachine
     public class DrinkMaker
     {
         private readonly IMoneyModule _moneyModule;
+        private readonly IEmailNotifier _emailNotifier;
+        private readonly IBeverageQuantityChecker _beverageQuantityChecker;
 
-        public DrinkMaker(IMoneyModule moneyModule)
+        public DrinkMaker(IMoneyModule moneyModule, IEmailNotifier emailNotifier, IBeverageQuantityChecker beverageQuantityChecker)
         {
             _moneyModule = moneyModule;
+            _emailNotifier = emailNotifier;
+            _beverageQuantityChecker = beverageQuantityChecker;
         }
 
         public IDrink Drink { get; private set; }
@@ -19,6 +23,12 @@ namespace CoffeeMachine
             {
                 case DrinkInstruction drinkInstruction:
                     _moneyModule.DrinkOrder = drinkInstruction.DrinkType;
+                    if (_beverageQuantityChecker.IsEmpty(drinkInstruction.DrinkType))
+                    {
+                        _emailNotifier.NotifyMissingDrink(drinkInstruction.DrinkType);
+                        Message = "There is not enough water or milk";
+                        return false;
+                    }
                     Message = _moneyModule.GetOrderTotalMessage();
                     _moneyModule.RequestMoney();
                     if (!_moneyModule.IsOrderPaid())
@@ -39,7 +49,6 @@ namespace CoffeeMachine
                     return false;
             }
         }
-        
         private static string ErrorMessage(ErrorMessageInstruction errorMessageInstruction)
         {
             return errorMessageInstruction.ErrorMessage;
@@ -54,5 +63,7 @@ namespace CoffeeMachine
         {
             return new Drink(drinkInstruction.DrinkType, drinkInstruction.Sugars, drinkInstruction.IsExtraHot);
         }
+
+
     }
 }

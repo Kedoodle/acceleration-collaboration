@@ -6,11 +6,15 @@ namespace CoffeeMachine.Test
 {
     public class DrinkMakerShould
     {
-        private IMoneyModule _dummyMoneyModule;
+        private readonly IMoneyModule _dummyMoneyModule;
+        private IEmailNotifier _dummyEmailNotifier;
+        private IBeverageQuantityChecker _dummyBeverageQuantityChecker;
 
         public DrinkMakerShould()
         {
             _dummyMoneyModule = Mock.Of<IMoneyModule>();
+            _dummyEmailNotifier = Mock.Of<IEmailNotifier>();
+            _dummyBeverageQuantityChecker = Mock.Of<IBeverageQuantityChecker>();
         }
         
         
@@ -25,7 +29,7 @@ namespace CoffeeMachine.Test
                     m.GetOrderTotalMessage() == "M:" &&
                     m.IsOrderPaid());
             
-            var drinkMaker = new DrinkMaker(stubMoneyModule);
+            var drinkMaker = new DrinkMaker(stubMoneyModule, _dummyEmailNotifier, _dummyBeverageQuantityChecker);
             var wasCommandExecuted = drinkMaker.TryExecuteCommand(drinkCommand);
             var drink = drinkMaker.Drink;
             
@@ -45,7 +49,7 @@ namespace CoffeeMachine.Test
                 m.GetOrderTotalMessage() == "M:" &&
                 m.IsOrderPaid());
             
-            var drinkMaker = new DrinkMaker(stubMoneyModule);
+            var drinkMaker = new DrinkMaker(stubMoneyModule, _dummyEmailNotifier, _dummyBeverageQuantityChecker);
             var wasCommandExecuted = drinkMaker.TryExecuteCommand(drinkCommand);
             var drink = drinkMaker.Drink;
             
@@ -59,7 +63,7 @@ namespace CoffeeMachine.Test
         [Fact]
         public void FailsGivenInvalidCommandCode()
         {
-            var drinkMaker = new DrinkMaker(_dummyMoneyModule);
+            var drinkMaker = new DrinkMaker(_dummyMoneyModule, _dummyEmailNotifier, _dummyBeverageQuantityChecker);
             const string invalidCommand = "Z";
             var wasCommandExecuted = drinkMaker.TryExecuteCommand(invalidCommand);
             var drink = drinkMaker.Drink;
@@ -71,7 +75,7 @@ namespace CoffeeMachine.Test
         [Fact]
         public void ForwardMessageReceived()
         {
-            var drinkMaker = new DrinkMaker(_dummyMoneyModule);
+            var drinkMaker = new DrinkMaker(_dummyMoneyModule, _dummyEmailNotifier, _dummyBeverageQuantityChecker);
             
             const string messageCommand = "M:message-content";
             const string expectedMessage = "message-content";
@@ -91,7 +95,7 @@ namespace CoffeeMachine.Test
             var mockMoneyModule = Mock.Of<IMoneyModule>(m => 
                 m.GetOrderTotalMessage() == "M:Order Total: $0.60" &&
                 m.AmountPaid == 0.60m);
-            var drinkMaker = new DrinkMaker(mockMoneyModule);
+            var drinkMaker = new DrinkMaker(mockMoneyModule, _dummyEmailNotifier, _dummyBeverageQuantityChecker);
 
             const string drinkCommand = "C:2:0";
             drinkMaker.TryExecuteCommand(drinkCommand);
@@ -99,6 +103,18 @@ namespace CoffeeMachine.Test
             Mock.Get(mockMoneyModule).Verify(m => 
                 m.GetOrderTotalMessage(), Times.Once);
         }
-        
+
+        [Fact]
+        public void SendMessageToConsoleIfDrinkShortage()
+        {
+            var mockBeverageQuantityChecker =
+                Mock.Of<IBeverageQuantityChecker>(b => b.IsEmpty(It.IsAny<DrinkType>()));
+            
+            var drinkMaker = new DrinkMaker(_dummyMoneyModule, _dummyEmailNotifier, mockBeverageQuantityChecker);
+            drinkMaker.TryExecuteCommand("C::");
+            
+            Mock.Get(_dummyEmailNotifier).Verify(e => e.NotifyMissingDrink(It.IsAny<DrinkType>()), Times.Once);
+            Assert.Equal("There is not enough water or milk", drinkMaker.Message);
+        }
     }
 }
