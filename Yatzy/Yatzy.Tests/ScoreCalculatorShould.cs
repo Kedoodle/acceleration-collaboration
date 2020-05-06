@@ -123,6 +123,19 @@ namespace Yatzy
             var actualScore = _scoreCalculator.GetScore(Category.Pair);
             
             Assert.Equal(expectedScore, actualScore);
+        }        
+        
+        [Theory]
+        [InlineData(new[] {1, 1, 2, 3, 3}, 8)]
+        [InlineData(new[] {1, 1, 2, 3, 4}, 0)]
+        [InlineData(new[] {1, 1, 2, 2, 2}, 6)]
+        [InlineData(new[] {3, 3, 3, 3, 1}, 12)]
+        public void SumTwoPairsForTwoPairsCategory(int[] dice, int expectedScore)
+        {
+            _scoreCalculator.Dice = dice;
+            var actualScore = _scoreCalculator.GetScore(Category.Pair);
+            
+            Assert.Equal(expectedScore, actualScore);
         }
     }
 }
