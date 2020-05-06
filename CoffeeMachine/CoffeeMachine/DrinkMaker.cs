@@ -19,10 +19,14 @@ namespace CoffeeMachine
             {
                 case DrinkInstruction drinkInstruction:
                     _moneyModule.DrinkOrder = drinkInstruction.DrinkType;
-                    var messageCommand = _moneyModule.GetOrderTotalMessageCommand();
-                    TryExecuteCommand(messageCommand);
+                    Message = _moneyModule.GetOrderTotalMessage();
                     _moneyModule.RequestMoney();
-                    if (!_moneyModule.IsOrderPaid()) return false;
+                    if (!_moneyModule.IsOrderPaid())
+                    {
+                        Message = _moneyModule.GetOrderNotPaidMessage();
+                        return false;
+                    }
+
                     Drink = GetDrink(drinkInstruction);
                     return true;
                 case MessageInstruction messageInstruction:

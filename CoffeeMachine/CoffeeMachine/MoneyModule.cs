@@ -17,17 +17,17 @@ namespace CoffeeMachine
             return DrinkExtensions.GetPrice(DrinkOrder);
         }
 
-        public string GetOrderTotalMessageCommand()
+        public string GetOrderTotalMessage()
         {
             var drinkPrice = GetDrinkPrice();
-            return $"M:ORDER TOTAL: ${drinkPrice:F}";
+            return $"ORDER TOTAL: ${drinkPrice:F}";
         }
         
-        public string GetOrderNotPaidMessageCommand()
+        public string GetOrderNotPaidMessage()
         {
             var drinkPrice = GetDrinkPrice();
             var additionalPayment = drinkPrice - AmountPaid;
-            return $"M:INSUFFICIENT PAYMENT: Additional ${additionalPayment:F} required";
+            return $"INSUFFICIENT PAYMENT: Additional ${additionalPayment:F} required";
         }
 
         public void RequestMoney()

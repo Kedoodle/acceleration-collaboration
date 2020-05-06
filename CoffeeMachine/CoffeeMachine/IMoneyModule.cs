@@ -6,8 +6,9 @@ namespace CoffeeMachine
     {
         DrinkType DrinkOrder { get; set; }
         decimal AmountPaid { get; set; }
-        string GetOrderTotalMessageCommand();
+        string GetOrderTotalMessage();
         public bool IsOrderPaid();
+        string GetOrderNotPaidMessage();
         void RequestMoney();
     }
 }
