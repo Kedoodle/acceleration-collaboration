@@ -5,7 +5,7 @@ namespace Yatzy
 {
     public class ScoreCalculatorShould
     {
-        private ScoreCalculator _scoreCalculator;
+        private readonly ScoreCalculator _scoreCalculator;
 
         public ScoreCalculatorShould()
         {
@@ -133,7 +133,7 @@ namespace Yatzy
         public void SumTwoPairsForTwoPairsCategory(int[] dice, int expectedScore)
         {
             _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Pair);
+            var actualScore = _scoreCalculator.GetScore(Category.TwoPairs);
             
             Assert.Equal(expectedScore, actualScore);
         }

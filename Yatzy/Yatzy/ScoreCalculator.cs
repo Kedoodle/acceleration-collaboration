@@ -22,6 +22,7 @@ namespace Yatzy
                 Category.Fives => GetFacesScore(5),
                 Category.Sixes => GetFacesScore(6),
                 Category.Pair => GetPairScore(),
+                Category.TwoPairs => GetTwoPairsScore(),
                 _ => throw new InvalidEnumArgumentException()
             };
         }
@@ -50,18 +51,40 @@ namespace Yatzy
 
         private int GetPairScore()
         {
-            return GetBiggestPair() * 2;
+            return GetAllMultiples().Max() * 2;
         }
 
-        private int GetBiggestPair()
+        private IEnumerable<int> GetAllMultiples()
         {
-            return Dice.Where(IsPair).Max();
-
+            return Dice.Where(HasMultiple);
         }
 
-        private bool IsPair(int die)
+        private bool HasMultiple(int die)
         {
             return Dice.Count(d => d == die) > 1;
+        }
+
+        private int GetTwoPairsScore()
+        {
+            if (!HasTwoPairs()) return 0;
+            
+            // if four of the same
+                // return 4 * that
+            // if two distinct pairs
+                // return 2 * sum of those
+                
+            var multiples = GetAllMultiples().ToList();
+            var distinctMultiples = multiples.Distinct().ToList();
+            if (distinctMultiples.Count == 1)
+            {
+                return distinctMultiples.First() * 4;
+            }
+            return distinctMultiples.Sum() * 2;
+        }
+
+        private bool HasTwoPairs()
+        {
+            return GetAllMultiples().Count() >= 4;
         }
     }
 }
