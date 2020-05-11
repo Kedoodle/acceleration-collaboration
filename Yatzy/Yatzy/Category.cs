@@ -11,6 +11,7 @@ namespace Yatzy
         Fives,
         Sixes,
         Pair,
-        TwoPairs
+        TwoPairs,
+        ThreeOfAKind
     }
 }

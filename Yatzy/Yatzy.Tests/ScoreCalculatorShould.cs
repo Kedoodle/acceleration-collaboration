@@ -137,5 +137,17 @@ namespace Yatzy
             
             Assert.Equal(expectedScore, actualScore);
         }
+        
+        [Theory]
+        [InlineData(new[] {3, 3, 3, 4, 5}, 9)]
+        [InlineData(new[] {3, 3, 4, 5, 6}, 0)]
+        [InlineData(new[] {3, 3, 3, 3, 1}, 9)]
+        public void SumThreeMatchingDiceForThreeOfAKindCategory(int[] dice, int expectedScore)
+        {
+            _scoreCalculator.Dice = dice;
+            var actualScore = _scoreCalculator.GetScore(Category.ThreeOfAKind);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }
     }
 }

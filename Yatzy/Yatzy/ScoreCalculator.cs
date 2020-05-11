@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Yatzy
 {
@@ -23,6 +24,7 @@ namespace Yatzy
                 Category.Sixes => GetFacesScore(6),
                 Category.Pair => GetPairScore(),
                 Category.TwoPairs => GetTwoPairsScore(),
+                Category.ThreeOfAKind => GetThreeOfAKindScore(),
                 _ => throw new InvalidEnumArgumentException()
             };
         }
@@ -67,24 +69,31 @@ namespace Yatzy
         private int GetTwoPairsScore()
         {
             if (!HasTwoPairs()) return 0;
-            
-            // if four of the same
-                // return 4 * that
-            // if two distinct pairs
-                // return 2 * sum of those
-                
-            var multiples = GetAllMultiples().ToList();
+
+            var multiples = GetAllMultiples();
             var distinctMultiples = multiples.Distinct().ToList();
-            if (distinctMultiples.Count == 1)
-            {
-                return distinctMultiples.First() * 4;
-            }
-            return distinctMultiples.Sum() * 2;
+            
+            var hasFourFacesSame = distinctMultiples.Count == 1;
+            var identicalPairsScore = distinctMultiples.First() * 4;
+            var distinctPairsScore = distinctMultiples.Sum() * 2;
+            
+            return hasFourFacesSame ? identicalPairsScore : distinctPairsScore;
         }
 
         private bool HasTwoPairs()
         {
             return GetAllMultiples().Count() >= 4;
+        }
+        
+        private int GetThreeOfAKindScore()
+        {
+            var threeOfAKind = Dice.Where(HasThreeOfAKind);
+            
+        }
+
+        private bool HasThreeOfAKind(int die)
+        {
+            return Dice.Count(d => d == die) > 3;
         }
     }
 }
