@@ -22,13 +22,13 @@ namespace Yatzy
                 Category.Fours => GetFacesScore(4),
                 Category.Fives => GetFacesScore(5),
                 Category.Sixes => GetFacesScore(6),
-                Category.Pair => GetPairScore(),
+                Category.Pair => GetNOfAKindScore(2),
                 Category.TwoPairs => GetTwoPairsScore(),
-                Category.ThreeOfAKind => GetThreeOfAKindScore(),
+                Category.ThreeOfAKind => GetNOfAKindScore(3),
+                Category.FourOfAKind => GetNOfAKindScore(4),
                 _ => throw new InvalidEnumArgumentException()
             };
         }
-
         private int GetChanceScore()
         {
             return Dice.Sum();
@@ -51,21 +51,6 @@ namespace Yatzy
             return Dice.Where(die => die == face).Sum();
         }
 
-        private int GetPairScore()
-        {
-            return GetAllMultiples().Max() * 2;
-        }
-
-        private IEnumerable<int> GetAllMultiples()
-        {
-            return Dice.Where(HasMultiple);
-        }
-
-        private bool HasMultiple(int die)
-        {
-            return Dice.Count(d => d == die) > 1;
-        }
-
         private int GetTwoPairsScore()
         {
             if (!HasTwoPairs()) return 0;
@@ -80,20 +65,31 @@ namespace Yatzy
             return hasFourFacesSame ? identicalPairsScore : distinctPairsScore;
         }
 
+        private IEnumerable<int> GetAllMultiples()
+        {
+            return Dice.Where(HasMultiple);
+        }
+
+        private bool HasMultiple(int die)
+        {
+            return Dice.Count(d => d == die) > 1;
+        }
+
         private bool HasTwoPairs()
         {
             return GetAllMultiples().Count() >= 4;
         }
-        
-        private int GetThreeOfAKindScore()
+
+        private int GetNOfAKindScore(int n)
         {
-            var threeOfAKind = Dice.Where(HasThreeOfAKind).Take(3);
-            return threeOfAKind.Sum();
+            var fourOfAKind = Dice.Where(HasNOfAKind()).OrderByDescending(d => d).Take(n);
+            return fourOfAKind.Sum();
+            
+            Func<int, bool> HasNOfAKind()
+            {
+                return die => Dice.Count(d => d == die) >= n;
+            }
         }
 
-        private bool HasThreeOfAKind(int die)
-        {
-            return Dice.Count(d => d == die) > 2;
-        }
     }
 }

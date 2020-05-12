@@ -149,5 +149,17 @@ namespace Yatzy
             
             Assert.Equal(expectedScore, actualScore);
         }
+        
+        [Theory]
+        [InlineData(new[] {2, 2, 2, 2, 5}, 8)]
+        [InlineData(new[] {2, 2, 2, 5, 5}, 0)]
+        [InlineData(new[] {2, 2, 2, 2, 2}, 8)]
+        public void SumFourMatchingDiceForFourOfAKindCategory(int[] dice, int expectedScore)
+        {
+            _scoreCalculator.Dice = dice;
+            var actualScore = _scoreCalculator.GetScore(Category.FourOfAKind);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }
     }
 }
