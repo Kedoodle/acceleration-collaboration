@@ -65,6 +65,11 @@ namespace Yatzy
             return hasFourFacesSame ? identicalPairsScore : distinctPairsScore;
         }
 
+        private bool HasTwoPairs()
+        {
+            return GetAllMultiples().Count() >= 4;
+        }
+
         private IEnumerable<int> GetAllMultiples()
         {
             return Dice.Where(HasMultiple);
@@ -73,11 +78,6 @@ namespace Yatzy
         private bool HasMultiple(int die)
         {
             return Dice.Count(d => d == die) > 1;
-        }
-
-        private bool HasTwoPairs()
-        {
-            return GetAllMultiples().Count() >= 4;
         }
 
         private int GetNOfAKindScore(int n)
