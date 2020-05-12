@@ -87,13 +87,13 @@ namespace Yatzy
         
         private int GetThreeOfAKindScore()
         {
-            var threeOfAKind = Dice.Where(HasThreeOfAKind);
-            
+            var threeOfAKind = Dice.Where(HasThreeOfAKind).Take(3);
+            return threeOfAKind.Sum();
         }
 
         private bool HasThreeOfAKind(int die)
         {
-            return Dice.Count(d => d == die) > 3;
+            return Dice.Count(d => d == die) > 2;
         }
     }
 }
