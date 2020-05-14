@@ -26,9 +26,12 @@ namespace Yatzy
                 Category.TwoPairs => GetTwoPairsScore(),
                 Category.ThreeOfAKind => GetNOfAKindScore(3),
                 Category.FourOfAKind => GetNOfAKindScore(4),
+                Category.SmallStraight => GetSmallStraightScore(),
+                Category.LargeStraight => GetLargeStraightScore(),
                 _ => throw new InvalidEnumArgumentException()
             };
         }
+
         private int GetChanceScore()
         {
             return Dice.Sum();
@@ -37,8 +40,7 @@ namespace Yatzy
         private int GetYatzyScore()
         {
             const int scoreForAllDiceSame = 50;
-            const int scoreForDifferentDice = 0;
-            return AllDiceSame() ? scoreForAllDiceSame : scoreForDifferentDice;
+            return AllDiceSame() ? scoreForAllDiceSame : 0;
         }
 
         private bool AllDiceSame()
@@ -91,5 +93,19 @@ namespace Yatzy
             }
         }
 
+        private int GetSmallStraightScore()
+        {
+            return HasAllFacesExcept(6) ? Dice.Sum() : 0;
+        }
+
+        private bool HasAllFacesExcept(int face)
+        {
+            return Dice.Distinct().Count() == 5 && !Dice.Distinct().Contains(face);
+        }
+        
+        private int GetLargeStraightScore()
+        {
+            return HasAllFacesExcept(1) ? Dice.Sum() : 0;
+        }
     }
 }
