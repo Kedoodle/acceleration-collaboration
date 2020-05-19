@@ -28,6 +28,7 @@ namespace Yatzy
                 Category.FourOfAKind => GetNOfAKindScore(4),
                 Category.SmallStraight => GetSmallStraightScore(),
                 Category.LargeStraight => GetLargeStraightScore(),
+                Category.FullHouse => GetFullHouseScore(),
                 _ => throw new InvalidEnumArgumentException()
             };
         }
@@ -106,6 +107,21 @@ namespace Yatzy
         private int GetLargeStraightScore()
         {
             return HasAllFacesExcept(1) ? Dice.Sum() : 0;
+        }
+
+        private int GetFullHouseScore()
+        {
+            return HasFullHouse() ? Dice.Sum() : 0;
+        }
+
+        private bool HasFullHouse()
+        {
+            var groups = Dice.GroupBy(die => die).ToList();
+            
+            var hasTwoGroups = groups.Count == 2;
+            var hasGroupWithTwoElements = groups.Any(group => group.Count() == 2);
+            
+            return hasTwoGroups && hasGroupWithTwoElements;
         }
     }
 }
