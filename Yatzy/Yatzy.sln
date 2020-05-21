@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yatzy.Tests", "Yatzy.Tests\Yatzy.Tests.csproj", "{E329009F-0255-451F-B97F-D3B40707A0C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yatzy", "Yatzy\Yatzy.csproj", "{FBC259C3-26A7-4021-8B84-9ED09AED5700}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E329009F-0255-451F-B97F-D3B40707A0C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E329009F-0255-451F-B97F-D3B40707A0C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E329009F-0255-451F-B97F-D3B40707A0C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E329009F-0255-451F-B97F-D3B40707A0C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBC259C3-26A7-4021-8B84-9ED09AED5700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC259C3-26A7-4021-8B84-9ED09AED5700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC259C3-26A7-4021-8B84-9ED09AED5700}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC259C3-26A7-4021-8B84-9ED09AED5700}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
