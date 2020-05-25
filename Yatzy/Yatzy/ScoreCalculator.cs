@@ -11,22 +11,7 @@ namespace Yatzy
         {
             return scoringMethod.GetScore(dice);
         }
-        //
-        // private int GetYatzyScore()
-        // {
-        //     const int scoreForAllDiceSame = 50;
-        //     return AllDiceSame() ? scoreForAllDiceSame : 0;
-        // }
-        //
-        // private bool AllDiceSame()
-        // {
-        //     return Dice.Distinct().Count() == 1;
-        // }
-        //
-        // private int GetFacesScore(int face)
-        // {
-        //     return Dice.Where(die => die == face).Sum();
-        // }
+        
         //
         // private int GetTwoPairsScore()
         // {
