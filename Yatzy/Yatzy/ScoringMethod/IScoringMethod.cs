@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
-namespace Yatzy
-{
+namespace Yatzy.ScoringMethod
+ {
     public interface IScoringMethod
     {
         public int GetScore(IEnumerable<int> dice);

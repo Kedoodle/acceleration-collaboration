@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Yatzy
+namespace Yatzy.ScoringMethod
 {
-    public class ScoreByFacesCategory : IScoringMethod
+    public class ScoreByFaces : IScoringMethod
     {
         private readonly int _face;
 
-        public ScoreByFacesCategory(int face)
+        public ScoreByFaces(int face)
         {
             _face = face;
         }
@@ -16,6 +16,5 @@ namespace Yatzy
         {
             return dice.Where(die => die == _face).Sum();
         }
-
     }
 }

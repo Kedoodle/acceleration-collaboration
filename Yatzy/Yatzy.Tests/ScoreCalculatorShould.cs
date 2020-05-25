@@ -16,7 +16,7 @@ namespace Yatzy.Tests
         [InlineData(new[]{4, 5, 5, 6, 1}, 21)]
         public void SumAllDiceForChanceCategory(int[] dice, int expectedScore)
         {
-            var actualScore = _scoreCalculator.Calculate(new ScoreByChanceCategory(), dice);
+            var actualScore = _scoreCalculator.Calculate(Category.Chance, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }        
@@ -26,7 +26,7 @@ namespace Yatzy.Tests
         [InlineData(new[] {1, 1, 1, 2, 1}, 0)]
         public void GivesScoreIfAllDiceSameForYatzyCategory(int[] dice, int expectedScore)
         {
-            var actualScore = _scoreCalculator.Calculate(new ScoreByYatzyCategory(), dice);
+            var actualScore = _scoreCalculator.Calculate(Category.Yatzy, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
@@ -38,7 +38,7 @@ namespace Yatzy.Tests
         [InlineData(new[] {1, 1, 1, 1, 1}, 5)]
         public void SumAllOnesForOnesCategory(int[] dice, int expectedScore)
         {
-            var actualScore = _scoreCalculator.Calculate(new ScoreByFacesCategory(1), dice);
+            var actualScore = _scoreCalculator.Calculate(Category.Ones, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -50,7 +50,7 @@ namespace Yatzy.Tests
         [InlineData(new[] {2, 2, 2, 2, 2}, 10)]
         public void SumAllTwosForTwosCategory(int[] dice, int expectedScore)
         {
-            var actualScore = _scoreCalculator.Calculate(new ScoreByFacesCategory(2), dice);
+            var actualScore = _scoreCalculator.Calculate(Category.Twos, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -62,7 +62,7 @@ namespace Yatzy.Tests
         [InlineData(new[] {3, 3, 3, 3, 3}, 15)]
         public void SumAllThreesForThreesCategory(int[] dice, int expectedScore)
         {
-            var actualScore = _scoreCalculator.Calculate(new ScoreByFacesCategory(3), dice);
+            var actualScore = _scoreCalculator.Calculate(Category.Threes, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -74,7 +74,7 @@ namespace Yatzy.Tests
         [InlineData(new[] {4, 4, 4, 4, 4}, 20)]
         public void SumAllFoursForFoursCategory(int[] dice, int expectedScore)
         {
-            var actualScore = _scoreCalculator.Calculate(new ScoreByFacesCategory(4), dice);
+            var actualScore = _scoreCalculator.Calculate(Category.Fours, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -86,7 +86,7 @@ namespace Yatzy.Tests
         [InlineData(new[] {5, 5, 5, 5, 5}, 25)]
         public void SumAllFivesForFivesCategory(int[] dice, int expectedScore)
         {
-            var actualScore = _scoreCalculator.Calculate(new ScoreByFacesCategory(5), dice);
+            var actualScore = _scoreCalculator.Calculate(Category.Fives, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -98,24 +98,23 @@ namespace Yatzy.Tests
         [InlineData(new[] {6, 6, 6, 6, 6}, 30)]
         public void SumAllSixesForSixesCategory(int[] dice, int expectedScore)
         {
-            var actualScore = _scoreCalculator.Calculate(new ScoreByFacesCategory(6), dice);
+            var actualScore = _scoreCalculator.Calculate(Category.Sixes, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
         
-        // [Theory]
-        // [InlineData(new[] {3, 3, 3, 4, 4}, 8)]
-        // [InlineData(new[] {1, 1, 6, 2, 6}, 12)]
-        // [InlineData(new[] {3, 3, 3, 4, 1}, 6)]
-        // [InlineData(new[] {3, 3, 3, 3, 1}, 6)]
-        // public void SumHighestPairForPairCategory(int[] dice, int expectedScore)
-        // {
-        //     _scoreCalculator.Dice = dice;
-        //     var actualScore = _scoreCalculator.Calculate(Category.Pair);
-        //     
-        //     Assert.Equal(expectedScore, actualScore);
-        // }        
-        //
+        [Theory]
+        [InlineData(new[] {3, 3, 3, 4, 4}, 8)]
+        [InlineData(new[] {1, 1, 6, 2, 6}, 12)]
+        [InlineData(new[] {3, 3, 3, 4, 1}, 6)]
+        [InlineData(new[] {3, 3, 3, 3, 1}, 6)]
+        public void SumHighestPairForPairCategory(int[] dice, int expectedScore)
+        {
+            var actualScore = _scoreCalculator.Calculate(Category.Pair, dice);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }        
+        
         // [Theory]
         // [InlineData(new[] {1, 1, 2, 3, 3}, 8)]
         // [InlineData(new[] {1, 1, 2, 3, 4}, 0)]

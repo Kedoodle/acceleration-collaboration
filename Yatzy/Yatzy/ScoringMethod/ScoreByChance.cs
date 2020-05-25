@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Yatzy
+namespace Yatzy.ScoringMethod
 {
-    public class ScoreByChanceCategory : IScoringMethod
+    public class ScoreByChance : IScoringMethod
     {
         public int GetScore(IEnumerable<int> dice)
         {
