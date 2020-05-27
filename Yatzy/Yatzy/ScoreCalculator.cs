@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Yatzy.ScoringMethod;
@@ -25,7 +24,7 @@ namespace Yatzy
                 Category.FourOfAKind => new ScoreByNOfAKind(4),
                 Category.SmallStraight => new ScoreByStraight(Category.SmallStraight),
                 Category.LargeStraight => new ScoreByStraight(Category.LargeStraight),
-                Category.FullHouse => null,
+                Category.FullHouse => new ScoreByFullHouse(),
                 _ => throw new InvalidEnumArgumentException()
             };
 
@@ -33,20 +32,3 @@ namespace Yatzy
         }
     }
 }
-
-
-        //
-        // private int GetFullHouseScore()
-        // {
-        //     return HasFullHouse() ? Dice.Sum() : 0;
-        // }
-        //
-        // private bool HasFullHouse()
-        // {
-        //     var groups = Dice.GroupBy(die => die).ToList();
-        //     
-        //     var hasTwoGroups = groups.Count == 2;
-        //     var hasGroupWithTwoElements = groups.Any(group => group.Count() == 2);
-        //     
-        //     return hasTwoGroups && hasGroupWithTwoElements;
-        // }

@@ -126,67 +126,62 @@ namespace Yatzy.Tests
             
             Assert.Equal(expectedScore, actualScore);
         }
-        //
-        // [Theory]
-        // [InlineData(new[] {3, 3, 3, 4, 5}, 9)]
-        // [InlineData(new[] {3, 3, 4, 5, 6}, 0)]
-        // [InlineData(new[] {3, 3, 3, 3, 1}, 9)]
-        // public void SumThreeMatchingDiceForThreeOfAKindCategory(int[] dice, int expectedScore)
-        // {
-        //     _scoreCalculator.Dice = dice;
-        //     var actualScore = _scoreCalculator.Calculate(Category.ThreeOfAKind);
-        //     
-        //     Assert.Equal(expectedScore, actualScore);
-        // }
-        //
-        // [Theory]
-        // [InlineData(new[] {2, 2, 2, 2, 5}, 8)]
-        // [InlineData(new[] {2, 2, 2, 5, 5}, 0)]
-        // [InlineData(new[] {2, 2, 2, 2, 2}, 8)]
-        // public void SumFourMatchingDiceForFourOfAKindCategory(int[] dice, int expectedScore)
-        // {
-        //     _scoreCalculator.Dice = dice;
-        //     var actualScore = _scoreCalculator.Calculate(Category.FourOfAKind);
-        //     
-        //     Assert.Equal(expectedScore, actualScore);
-        // }
-        //
-        // [Theory]
-        // [InlineData(new[] {1, 2, 3, 4, 5}, 15)]
-        // [InlineData(new[] {2, 2, 2, 5, 5}, 0)]
-        // [InlineData(new[] {5, 3, 1, 2, 4}, 15)]
-        // [InlineData(new[] {2, 3, 4, 5, 6}, 0)]
-        // public void SumOneThroughFiveForSmallStraightCategory(int[] dice, int expectedScore)
-        // {
-        //     _scoreCalculator.Dice = dice;
-        //     var actualScore = _scoreCalculator.Calculate(Category.SmallStraight);
-        //     
-        //     Assert.Equal(expectedScore, actualScore);
-        // }
-        //
-        // [Theory]
-        // [InlineData(new[] {2, 3, 4, 5, 6}, 20)]
-        // [InlineData(new[] {3, 2, 5, 6, 4}, 20)]
-        // [InlineData(new[] {2, 2, 2, 5, 5}, 0)]
-        // [InlineData(new[] {1, 2, 3, 4, 5}, 0)]
-        // public void SumTwoThroughSixForLargeStraightCategory(int[] dice, int expectedScore)
-        // {
-        //     _scoreCalculator.Dice = dice;
-        //     var actualScore = _scoreCalculator.Calculate(Category.LargeStraight);
-        //     
-        //     Assert.Equal(expectedScore, actualScore);
-        // }
-        //
-        // [Theory]
-        // [InlineData(new[] {1, 1, 2, 2, 2}, 8)]
-        // [InlineData(new[] {2, 2, 3, 3, 4}, 0)]
-        // [InlineData(new[] {4, 4, 4, 4, 4}, 0)]
-        // public void SumPairAndThreeOfAKindForFullHouseCategory(int[] dice, int expectedScore)
-        // {
-        //     _scoreCalculator.Dice = dice;
-        //     var actualScore = _scoreCalculator.Calculate(Category.FullHouse);
-        //     
-        //     Assert.Equal(expectedScore, actualScore);
-        // }
+
+        [Theory]
+        [InlineData(new[] {3, 3, 3, 4, 5}, 9)]
+        [InlineData(new[] {3, 3, 4, 5, 6}, 0)]
+        [InlineData(new[] {3, 3, 3, 3, 1}, 9)]
+        public void SumThreeMatchingDiceForThreeOfAKindCategory(int[] dice, int expectedScore)
+        {
+            var actualScore = _scoreCalculator.Calculate(Category.ThreeOfAKind, dice);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }
+        
+        [Theory]
+        [InlineData(new[] {2, 2, 2, 2, 5}, 8)]
+        [InlineData(new[] {2, 2, 2, 5, 5}, 0)]
+        [InlineData(new[] {2, 2, 2, 2, 2}, 8)]
+        public void SumFourMatchingDiceForFourOfAKindCategory(int[] dice, int expectedScore)
+        {
+            var actualScore = _scoreCalculator.Calculate(Category.FourOfAKind, dice);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }
+        
+        [Theory]
+        [InlineData(new[] {1, 2, 3, 4, 5}, 15)]
+        [InlineData(new[] {2, 2, 2, 5, 5}, 0)]
+        [InlineData(new[] {5, 3, 1, 2, 4}, 15)]
+        [InlineData(new[] {2, 3, 4, 5, 6}, 0)]
+        public void SumOneThroughFiveForSmallStraightCategory(int[] dice, int expectedScore)
+        {
+            var actualScore = _scoreCalculator.Calculate(Category.SmallStraight, dice);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }
+        
+        [Theory]
+        [InlineData(new[] {2, 3, 4, 5, 6}, 20)]
+        [InlineData(new[] {3, 2, 5, 6, 4}, 20)]
+        [InlineData(new[] {2, 2, 2, 5, 5}, 0)]
+        [InlineData(new[] {1, 2, 3, 4, 5}, 0)]
+        public void SumTwoThroughSixForLargeStraightCategory(int[] dice, int expectedScore)
+        {
+            var actualScore = _scoreCalculator.Calculate(Category.LargeStraight, dice);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }
+        
+        [Theory]
+        [InlineData(new[] {1, 1, 2, 2, 2}, 8)]
+        [InlineData(new[] {2, 2, 3, 3, 4}, 0)]
+        [InlineData(new[] {4, 4, 4, 4, 4}, 0)]
+        public void SumPairAndThreeOfAKindForFullHouseCategory(int[] dice, int expectedScore)
+        {
+            var actualScore = _scoreCalculator.Calculate(Category.FullHouse, dice);
+            
+            Assert.Equal(expectedScore, actualScore);
+        }
     }
 }
