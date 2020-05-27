@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace string_calc_pair_prog
+namespace StringCalculator
 {
     class Program
     {
