@@ -1,7 +1,6 @@
-using System;
 using Xunit;
 
-namespace Yatzy
+namespace Yatzy.Tests
 {
     public class ScoreCalculatorShould
     {
@@ -17,8 +16,7 @@ namespace Yatzy
         [InlineData(new[]{4, 5, 5, 6, 1}, 21)]
         public void SumAllDiceForChanceCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Chance);
+            var actualScore = _scoreCalculator.Calculate(Category.Chance, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }        
@@ -28,8 +26,7 @@ namespace Yatzy
         [InlineData(new[] {1, 1, 1, 2, 1}, 0)]
         public void GivesScoreIfAllDiceSameForYatzyCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Yatzy);
+            var actualScore = _scoreCalculator.Calculate(Category.Yatzy, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
@@ -41,8 +38,7 @@ namespace Yatzy
         [InlineData(new[] {1, 1, 1, 1, 1}, 5)]
         public void SumAllOnesForOnesCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Ones);
+            var actualScore = _scoreCalculator.Calculate(Category.Ones, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -54,8 +50,7 @@ namespace Yatzy
         [InlineData(new[] {2, 2, 2, 2, 2}, 10)]
         public void SumAllTwosForTwosCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Twos);
+            var actualScore = _scoreCalculator.Calculate(Category.Twos, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -67,8 +62,7 @@ namespace Yatzy
         [InlineData(new[] {3, 3, 3, 3, 3}, 15)]
         public void SumAllThreesForThreesCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Threes);
+            var actualScore = _scoreCalculator.Calculate(Category.Threes, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -80,8 +74,7 @@ namespace Yatzy
         [InlineData(new[] {4, 4, 4, 4, 4}, 20)]
         public void SumAllFoursForFoursCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Fours);
+            var actualScore = _scoreCalculator.Calculate(Category.Fours, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -93,8 +86,7 @@ namespace Yatzy
         [InlineData(new[] {5, 5, 5, 5, 5}, 25)]
         public void SumAllFivesForFivesCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Fives);
+            var actualScore = _scoreCalculator.Calculate(Category.Fives, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }   
@@ -106,8 +98,7 @@ namespace Yatzy
         [InlineData(new[] {6, 6, 6, 6, 6}, 30)]
         public void SumAllSixesForSixesCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Sixes);
+            var actualScore = _scoreCalculator.Calculate(Category.Sixes, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
@@ -119,8 +110,7 @@ namespace Yatzy
         [InlineData(new[] {3, 3, 3, 3, 1}, 6)]
         public void SumHighestPairForPairCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.Pair);
+            var actualScore = _scoreCalculator.Calculate(Category.Pair, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }        
@@ -132,20 +122,18 @@ namespace Yatzy
         [InlineData(new[] {3, 3, 3, 3, 1}, 12)]
         public void SumTwoPairsForTwoPairsCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.TwoPairs);
+            var actualScore = _scoreCalculator.Calculate(Category.TwoPairs, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
-        
+
         [Theory]
         [InlineData(new[] {3, 3, 3, 4, 5}, 9)]
         [InlineData(new[] {3, 3, 4, 5, 6}, 0)]
         [InlineData(new[] {3, 3, 3, 3, 1}, 9)]
         public void SumThreeMatchingDiceForThreeOfAKindCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.ThreeOfAKind);
+            var actualScore = _scoreCalculator.Calculate(Category.ThreeOfAKind, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
@@ -156,8 +144,7 @@ namespace Yatzy
         [InlineData(new[] {2, 2, 2, 2, 2}, 8)]
         public void SumFourMatchingDiceForFourOfAKindCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.FourOfAKind);
+            var actualScore = _scoreCalculator.Calculate(Category.FourOfAKind, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
@@ -169,8 +156,7 @@ namespace Yatzy
         [InlineData(new[] {2, 3, 4, 5, 6}, 0)]
         public void SumOneThroughFiveForSmallStraightCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.SmallStraight);
+            var actualScore = _scoreCalculator.Calculate(Category.SmallStraight, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
@@ -182,8 +168,7 @@ namespace Yatzy
         [InlineData(new[] {1, 2, 3, 4, 5}, 0)]
         public void SumTwoThroughSixForLargeStraightCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.LargeStraight);
+            var actualScore = _scoreCalculator.Calculate(Category.LargeStraight, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
@@ -194,8 +179,7 @@ namespace Yatzy
         [InlineData(new[] {4, 4, 4, 4, 4}, 0)]
         public void SumPairAndThreeOfAKindForFullHouseCategory(int[] dice, int expectedScore)
         {
-            _scoreCalculator.Dice = dice;
-            var actualScore = _scoreCalculator.GetScore(Category.FullHouse);
+            var actualScore = _scoreCalculator.Calculate(Category.FullHouse, dice);
             
             Assert.Equal(expectedScore, actualScore);
         }
