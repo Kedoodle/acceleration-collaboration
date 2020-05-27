@@ -4,6 +4,8 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
 
         <IsPackable>false</IsPackable>
+
+        <RootNamespace>StringCalculator.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\string_calc_pair_prog\string_calc_pair_prog.csproj" />
+      <ProjectReference Include="..\StringCalculator\StringCalculator.csproj" />
     </ItemGroup>
 
 </Project>

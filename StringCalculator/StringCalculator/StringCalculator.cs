@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace string_calc_test
+namespace StringCalculator
 {
     public static class StringCalculator
     {

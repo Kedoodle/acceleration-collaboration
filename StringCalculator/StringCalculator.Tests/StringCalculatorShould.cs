@@ -1,10 +1,9 @@
 using System;
-using string_calc_pair_prog;
 using Xunit;
 
-namespace string_calc_test
+namespace StringCalculator.Tests
 {
-	public class StringCalcTest
+	public class StringCalculatorShould
 	{
 		[Fact]
 		public void EmptyStringReturns0()
