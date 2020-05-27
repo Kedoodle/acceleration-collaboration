@@ -112,6 +112,5 @@ namespace StringCalculator.Tests
 			var actual = StringCalculator.Add(stringToCalc);
 			Assert.Equal(expected, actual);
 		}
-		
 	}
 }
